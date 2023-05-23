@@ -2,10 +2,10 @@
 \alias{InteractiveGate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Interactive Gate
+Interactive manual gating of scatter pplots
 }
 \description{
-Interactive Gate using flowGate 
+Allows to draw a polygon around a specifc area in a two-dimensional scatter plot
 }
 \usage{
 InteractiveGate(Data, GateVars, Gatename = "Leukocytes", PlotIt = FALSE)
@@ -13,52 +13,48 @@ InteractiveGate(Data, GateVars, Gatename = "Leukocytes", PlotIt = FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Data}{
-%%     ~~Describe \code{Data} here~~
+[1:n,1:d] numerical matrix of n cases and d variables. each variable has a name accessible via colnames(Data)
 }
   \item{GateVars}{
-%%     ~~Describe \code{GateVars} here~~
+[1:2] character vector of columns that are selected
 }
   \item{Gatename}{
-%%     ~~Describe \code{Gatename} here~~
+name of the gate
 }
   \item{PlotIt}{
-%%     ~~Describe \code{PlotIt} here~~
+TRUE: plots the result
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Only polygon gates can be used in the interactive tool.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
-}
-\author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+a LIST,
+\item{Polygon }{[1:p,1:2] numerical matrix of coordinates for variables named by\code{GateVars} defining the polygon  }
+\item{Index }{indices of data points within the polygon}
+\item{DataInGate }{[1:m,1:d] numerical matrix of n cases and d variables of data points within the polygon}
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\author{
+Michael Thrun
+}
+
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link[flowGate]{gs_gate_interactive}}
 }
 \examples{
-##Todo
+Disk=""
+#path=ReDi("AutoGating/09Originale",Disk)
+#V=ReadLRN("110001_T1_NB_d11_N33k",path)
+#Data=V$Data
+#V=InteractiveGate(Data,GateVars = c( "SS", "FS"),PlotIt = T)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
+\keyword{ Gate }
+\keyword{ Gating }
 % Use only one keyword per line.
 % For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.
+\concept{Manual Gating}
+
