@@ -1,5 +1,5 @@
 useDynLib(ScatterDensity, .registration = TRUE)
-export("DensityScatter.DDCAL","InteractiveGate","SmoothedDensitiesXY", 
+export("DensityScatter.DDCAL","InteractiveGate","InteractiveSequentialGates","SmoothedDensitiesXY", 
        "PDEscatter","DDCAL","PointsInPolygon","PolygonGate")
 
 import(Rcpp)
