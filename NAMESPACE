@@ -1,0 +1,12 @@
+useDynLib(ScatterDensity, .registration = TRUE)
+export("DensityScatter.DDCAL","InteractiveGate","SmoothedDensitiesXY", 
+       "PDEscatter","DDCAL","PointsInPolygon","PolygonGate")
+
+import(Rcpp)
+    importFrom("grDevices", "colorRampPalette")
+    importFrom("graphics", "axis", "hist", "lines", "par", "points",
+               "title")
+    importFrom("methods", "as")
+    importFrom("stats", "dist", "quantile", "sd")
+    importFrom("utils", "head")
+
