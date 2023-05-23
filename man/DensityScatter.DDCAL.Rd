@@ -93,6 +93,19 @@ Support for plotly will be implemented later
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
+\dontshow{
+# Create two bimodial distributions
+x1=rnorm(n = 75,mean = 0,sd = 1)
+y1=rnorm(n = 75,mean = 0,sd = 1)
+x2=rnorm(n = 75,mean = 2.5,sd = 1)
+y2=rnorm(n = 75,mean = 2.5,sd = 1)
+x=c(x1,x2)
+y=c(y1,y2)
+
+DensityScatter.DDCAL(x, y, Marginals = TRUE)
+}
+
+\donttest{
 # Create two bimodial distributions
 x1=rnorm(n = 7500,mean = 0,sd = 1)
 y1=rnorm(n = 7500,mean = 0,sd = 1)
@@ -102,6 +115,7 @@ x=c(x1,x2)
 y=c(y1,y2)
 
 DensityScatter.DDCAL(x, y, Marginals = TRUE)
+}
 }
 \keyword{scatter}
 \keyword{PDE}

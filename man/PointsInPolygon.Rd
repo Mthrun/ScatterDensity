@@ -57,10 +57,10 @@ Cls=PointsInPolygon(XY,polymat,PlotIt = TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
+ \keyword{Gate}
 % \keyword{ ~kwd2 }
 % Use only one keyword per line.
 % For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
+\concept{Manual Gating }
 % \concept{ ~cpt2 }
 % Use only one concept per line.

@@ -60,7 +60,13 @@ Luca Brinkmann
 }
 
 \examples{
-
+\dontshow{
+c1 = rnorm(n=40)
+c2 = rnorm(n=40,1,2)
+densities = SmoothedDensitiesXY(c1,c2)$Densities
+labels = ScatterDensity::DDCAL(densities, 2)
+}
+\donttest{
 # Load data
 if(requireNamespace("FCPS")){
 data(EngyTime, package = "FCPS")
@@ -87,6 +93,7 @@ if(requireNamespace("ggplot2")){
 ggplot2::ggplot(df, ggplot2::aes(c1, c2, color = labels)) +
   ggplot2::geom_point() +
   ggplot2::scale_color_manual(values = my_colors)
+}
 }
 }
 

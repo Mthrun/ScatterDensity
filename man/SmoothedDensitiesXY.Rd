@@ -57,6 +57,14 @@ Michael Thrun, reimplemented from Matlab (Alfred Ultsch)
 }
 
 \examples{
+\dontshow{
+c1 = rnorm(n=40)
+c2 = rnorm(n=40,1,2)
+densities = SmoothedDensitiesXY(c1,c2)$Densities
+}
+
+
+\donttest{
 if(requireNamespace("DataVisualizations")){
 data("ITS",package = "DataVisualizations")
 data("MTY",package = "DataVisualizations")
@@ -67,6 +75,7 @@ V=SmoothedDensitiesXY(ITS[Inds],MTY[Inds])
 ITS=rnorm(1000)
 MTY=rnorm(1000)
 V=SmoothedDensitiesXY(ITS,MTY)
+}
 }
 
 
