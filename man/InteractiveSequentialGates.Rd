@@ -46,7 +46,7 @@ Michael Thrun
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link[flowGate]{gs_gate_interactive}}
 }
 \examples{
 Disk=""
