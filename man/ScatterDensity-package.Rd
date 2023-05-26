@@ -19,9 +19,6 @@ The DESCRIPTION file:
 
 Maintainer: \packageMaintainer{ScatterDensity}
 }
-\references{
-.
-}
 
 \keyword{ package }
 

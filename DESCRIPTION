@@ -1,17 +1,18 @@
 Package: ScatterDensity
 Type: Package
-Title: Density estimation and visualization of 2D scatter plots
+Title: Density Estimation and Visualization of 2D Scatter Plots
 Version: 0.0.2
-Date: 2023-05-23
-Authors@R: c(person("Michael", "Thrun", email= "m.thrun@gmx.net",role=c("aut","cre","cph"), comment = c(ORCID = "0000-0001-9542-5543")),person("Felix", "Pape",role=c("aut","rev")),person("Felix", "Pape",role=c("ctr")),person("Dirk", "Eddelbuettel",role=c("ctr")),person("Luca","Brinkman",role=c("aut")))
+Date: 2023-05-27
+Authors@R: c(person("Michael", "Thrun", email= "m.thrun@gmx.net",role=c("aut","cre","cph"), comment = c(ORCID = "0000-0001-9542-5543")),person("Felix", "Pape",role=c("aut","rev")),person("Luca","Brinkman",role=c("aut")))
 Maintainer: Michael Thrun <m.thrun@gmx.net>
-Description: The user has the option to utilize two-dimensional density estimation techniques, SDH and PDE. Moreover, it provides visualizations of the density estimation in the form of two-dimensional scatter plots in which the points are color-coded based on increasing density. 
+Description: The user has the option to utilize the two-dimensional density estimation techniques called smoothed density and pareto density. Moreover, it provides visualizations of the density estimation in the form of two-dimensional scatter plots in which the points are color-coded based on increasing density. 
 LazyLoad: yes
 Imports: Rcpp, pracma
 Suggests: DataVisualizations, ggplot2, ggExtra, plotly, FCPS, parallelDist, secr, ClusterR, flowCore, flowWorkspace, flowGate, dplyr, tibble
 Depends: methods, R (>= 2.10)
 LinkingTo: Rcpp, RcppArmadillo
 NeedsCompilation: yes
-License: CC BY-NC 4.0
+License: GPL-3
 Encoding: UTF-8
 URL: https://www.deepbionics.org/
+BugReports: https://github.com/Mthrun/ScatterDensity/issues

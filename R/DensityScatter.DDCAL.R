@@ -34,7 +34,6 @@ DensityScatter.DDCAL <-
       Dens = PDEscatter(x = X[ind], y = Y[ind], PlotIt = -1)$Densities
     }
     
-    
     if (isFALSE(Silent)) 
       message("DensityScatter.DDCAL: Estimating colors...")
     cls = DDCAL(Dens, nClusters = 12, minBoundary = 0.2, 
@@ -107,29 +106,33 @@ DensityScatter.DDCAL <-
         message("DensityScatter.DDCAL: Preparing for ggplot2..")
       if (isTRUE(Bool)) {
         if (length(X) > 2 * PDEsample) {
-          mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 2 * PDEsample)
+          mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 
+                                          2 * PDEsample)
           Centroids = mod$centroids
-          DFnull = data.frame(x2 = Centroids[, 1], y2 = Centroids[, 2]
-                              , Colors = "navyblue")
+          DFnull = data.frame(x2 = Centroids[, 1], y2 = Centroids[, 
+                                                                  2], Colors = "navyblue")
         }
         else {
           ind2 = 1:length(X)
-          DFnull = data.frame(x2 = X, y2 = Y, Colors = "navyblue")[ind2, ]
+          DFnull = data.frame(x2 = X, y2 = Y, Colors = "navyblue")[ind2, 
+          ]
         }
         if (isFALSE(Silent)) 
           message("DensityScatter.DDCAL: using ggplot2..")
         DF = data.frame(x = X[ind], y = Y[ind], Colors = cols, 
                         Cls = cls)
-        ggobj = ggplot2::ggplot(DF, ggplot2::aes(x = x, y = y, col = Colors)) + 
-          ggplot2::geom_point(data = DFnull, mapping = ggplot2::aes(x = x2, y = y2, col = Colors), 
-                              size = Size, shape = 3, alpha = 0.4) + 
-          ggplot2::geom_point(size = Size, shape = pch, alpha = 0.4) + 
-          ggplot2::theme(legend.position = "none") + 
+        ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
+                                                 col = "Colors")) + ggplot2::geom_point(data = DFnull, 
+                                                                                        mapping = ggplot2::aes_string(x = "x2", y = "y2", col = "Colors"), 
+                                                                                        size = Size, shape = 3, alpha = 0.4) + 
+          ggplot2::geom_point(size = Size, shape = pch, 
+                              alpha = 0.4) + ggplot2::theme(legend.position = "none") + 
           ggplot2::scale_color_identity()
       }
       else {
         DF = data.frame(x = X, y = Y, Colors = cols, Cls = cls)
-        ggobj = ggplot2::ggplot(DF, ggplot2::aes(x = x, y = y, group = Cls, col = Colors), alpha = 0.05) + 
+        ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
+                                                 group = "Cls", col = "Colors"), alpha = 0.05) + 
           ggplot2::geom_point(size = Size, shape = pch) + 
           ggplot2::theme(legend.position = "none") + ggplot2::scale_color_identity()
       }
