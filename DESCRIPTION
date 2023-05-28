@@ -2,7 +2,7 @@ Package: ScatterDensity
 Type: Package
 Title: Density Estimation and Visualization of 2D Scatter Plots
 Version: 0.0.2
-Date: 2023-05-27
+Date: 2023-05-29
 Authors@R: c(person("Michael", "Thrun", email= "m.thrun@gmx.net",role=c("aut","cre","cph"), comment = c(ORCID = "0000-0001-9542-5543")),person("Felix", "Pape",role=c("aut","rev")),person("Luca","Brinkman",role=c("aut")))
 Maintainer: Michael Thrun <m.thrun@gmx.net>
 Description: The user has the option to utilize the two-dimensional density estimation techniques called smoothed density and pareto density. Moreover, it provides visualizations of the density estimation in the form of two-dimensional scatter plots in which the points are color-coded based on increasing density. 
