@@ -28,37 +28,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// c_quantile
-Rcpp::NumericVector c_quantile(Rcpp::NumericVector x, Rcpp::NumericVector probs);
-RcppExport SEXP _ScatterDensity_c_quantile(SEXP xSEXP, SEXP probsSEXP) {
+// quantile4LargeVectors
+Rcpp::NumericVector quantile4LargeVectors(Rcpp::NumericVector x, Rcpp::NumericVector probs);
+RcppExport SEXP _ScatterDensity_quantile4LargeVectors(SEXP xSEXP, SEXP probsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type probs(probsSEXP);
-    rcpp_result_gen = Rcpp::wrap(c_quantile(x, probs));
-    return rcpp_result_gen;
-END_RCPP
-}
-// insidecpp
-bool insidecpp(const NumericVector& xy, const int n1, const int n2, const NumericMatrix& poly);
-RcppExport SEXP _ScatterDensity_insidecpp(SEXP xySEXP, SEXP n1SEXP, SEXP n2SEXP, SEXP polySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type xy(xySEXP);
-    Rcpp::traits::input_parameter< const int >::type n1(n1SEXP);
-    Rcpp::traits::input_parameter< const int >::type n2(n2SEXP);
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type poly(polySEXP);
-    rcpp_result_gen = Rcpp::wrap(insidecpp(xy, n1, n2, poly));
+    rcpp_result_gen = Rcpp::wrap(quantile4LargeVectors(x, probs));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ScatterDensity_c_inPSphere2D", (DL_FUNC) &_ScatterDensity_c_inPSphere2D, 7},
-    {"_ScatterDensity_c_quantile", (DL_FUNC) &_ScatterDensity_c_quantile, 2},
-    {"_ScatterDensity_insidecpp", (DL_FUNC) &_ScatterDensity_insidecpp, 4},
+    {"_ScatterDensity_quantile4LargeVectors", (DL_FUNC) &_ScatterDensity_quantile4LargeVectors, 2},
     {NULL, NULL, 0}
 };
 

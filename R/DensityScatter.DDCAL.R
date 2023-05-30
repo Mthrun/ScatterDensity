@@ -1,5 +1,4 @@
-DensityScatter.DDCAL <-
-  function (X, Y, xlab, ylab, SDHorPDE = TRUE, Plotter = "native", 
+DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE, Plotter = "native", 
             Silent = FALSE, Marginals = FALSE, pch = 10, Size = 1, BW = TRUE, 
             PDEsample = 5000, lwd = 2, na.rm = TRUE,Polygon, ...) 
   {
@@ -54,6 +53,8 @@ DensityScatter.DDCAL <-
     if (Plotter == "native") {
       if (isTRUE(Marginals)) {
         def.par <- par(no.readonly = TRUE)
+        on.exit(par(def.par))
+        
         m <- graphics::layout(matrix(c(1, 2, 2, 2, 1, 2, 
                                        2, 2, 1, 2, 2, 2, 4, 3, 3, 3), 4, 4))
         par(fig = c(0, 0.8, 0, 0.8), 
@@ -98,7 +99,7 @@ DensityScatter.DDCAL <-
         axis(side = 1, at = pretty(V$paretoDensity, n = 3), 
              labels = gsub("\\.?0*$", "", formatC(pretty(V$paretoDensity, n = 3), format = "f")))
         
-        par(def.par)
+        #par(def.par)#apparantly on.exit is the better solution
       }
     }
     else if (Plotter == "ggplot2") {
@@ -140,11 +141,11 @@ DensityScatter.DDCAL <-
         ggobj = ggobj + ggplot2::theme_bw()
       if (isTRUE(Marginals)) {
         ggobj2 <- ggExtra::ggMarginal(ggobj, type = "density")
-        print(ggobj2)
+        #print(ggobj2)
         return(ggobj2)
       }
       else {
-        print(ggobj)
+        #print(ggobj)
         return(ggobj)
       }
     }

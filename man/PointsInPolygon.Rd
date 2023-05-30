@@ -38,7 +38,7 @@ Numerical classification vector Cls with 1 = outside polygon and 2 = inside poly
 }
 
 \author{
-Michael Thrun, Murray Effort
+Michael Thrun
 }
 
 \seealso{

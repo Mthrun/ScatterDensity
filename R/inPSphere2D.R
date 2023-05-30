@@ -1,5 +1,4 @@
-inPSphere2D <-
-function (data, paretoRadius = NULL) 
+inPSphere2D = function (data, paretoRadius = NULL) 
 {
     if (is.null(paretoRadius)){
       if(requireNamespace("DataVisualizations")){

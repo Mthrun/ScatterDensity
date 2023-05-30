@@ -2,7 +2,7 @@
 \alias{PDEscatter}
 \title{Scatter Density Plot}
 \description{
-Pareto density estimation (PDE) [Ultsch, 2005] used for a scatter density plot. 
+Concept of Pareto density estimation (PDE) proposed for univsariate data by [Ultsch, 2005] and comparet to varius density estimation techniques by [Thrun et al., 2020] for univariate data is here applied for a scatter density plot. It was also applied in [Thrun and Ultsch, 2018] to bivariate data, but is not yet compared to other techniques.
 }
 \usage{
 PDEscatter(x,y,SampleSize,
@@ -69,13 +69,11 @@ MT contributed with several adjustments
 
 }
 \references{
-
-[Thrun, 2018]  Thrun, M. C.: Projection Based Clustering through Self-Organization and Swarm Intelligence, (Ultsch, A. & Huellermeier, E. Eds., 10.1007/978-3-658-20540-9), Doctoral dissertation, Heidelberg, Springer, ISBN: 978-3658205393, 2018.
-
 [Thrun/Ultsch, 2018] Thrun, M. C., & Ultsch, A. : Effects of the payout system of income taxes to municipalities in Germany, in Papiez, M. & Smiech,, S. (eds.), Proc. 12th Professor Aleksander Zelias International Conference on Modelling and Forecasting of Socio-Economic Phenomena, pp. 533-542, Cracow: Foundation of the Cracow University of Economics, Cracow, Poland, 2018. 
 
 [Ultsch, 2005]  Ultsch, A.: Pareto density estimation: A density estimation for knowledge discovery, In Baier, D. & Werrnecke, K. D. (Eds.), Innovations in classification, data science, and information systems, (Vol. 27, pp. 91-100), Berlin, Germany, Springer, 2005.
 
+[Thrun et al., 2020] Thrun, M. C., Gehlert, T. & Ultsch, A.: Analyzing the Fine Structure of Distributions, PLoS ONE, Vol. 15(10), pp. 1-66, DOI \doi{10.1371/journal.pone.0238835}, 2020. 
 
 }
 

@@ -32,7 +32,7 @@ String, title of the y axis. Default: "Y",   see \code{plot()} function
 (Optional) Boolean, if TRUE SDH is used to calculate density, if FALSE PDE is used
 }
   \item{Plotter}{
-(Optional) String, name of the plotting backend to use. Possible values are: "\code{native}" and "\code{ggplot2}", default is "\code{native}""
+(Optional) String, name of the plotting backend to use. Possible values are: "\code{native}" or "\code{ggplot2}"
 }
   \item{Silent}{
 (Optional) Boolean, if TRUE no messages will be printed, default is FALSE

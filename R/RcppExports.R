@@ -5,11 +5,7 @@ c_inPSphere2D <- function(data, xBinNr, yBinNr, nrXBins, nrYBins, nrData, pareto
     .Call(`_ScatterDensity_c_inPSphere2D`, data, xBinNr, yBinNr, nrXBins, nrYBins, nrData, paretoRadius)
 }
 
-c_quantile <- function(x, probs) {
-    .Call(`_ScatterDensity_c_quantile`, x, probs)
-}
-
-insidecpp <- function(xy, n1, n2, poly) {
-    .Call(`_ScatterDensity_insidecpp`, xy, n1, n2, poly)
+quantile4LargeVectors <- function(x, probs) {
+    .Call(`_ScatterDensity_quantile4LargeVectors`, x, probs)
 }
 

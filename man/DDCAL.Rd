@@ -2,7 +2,7 @@
 \alias{DDCAL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Density Distribution Cluster Algorithm
+Density Distribution Cluster Algorithm of [Lux and Rinderle-Ma, 2023].
 }
 \description{
 DDCAL is a clustering-algorithm for one-dimensional data, which heuristically finds clusters to evenly distribute the data points in low variance clusters.
@@ -53,7 +53,7 @@ The algorithm is not garantueed to produce the given number of clusters, given i
 
 }
 \references{
-Lux, M., Rinderle-Ma, S.: DDCAL: Evenly Distributing Data into Low Variance Clusters Based on Iterative Feature Scaling; Springer Journal of Classification, 25. Jan. 2023
+[Lux and Rinderle-Ma, 2023] Lux, M., Rinderle-Ma, S.: DDCAL: Evenly Distributing Data into Low Variance Clusters Based on Iterative Feature Scaling; Springer Journal of Classification, Vol. 40, pp. 106-144, DOI: \doi{10.1007/s00357-022-09428-6}, 2023.
 }
 \author{
 Luca Brinkmann

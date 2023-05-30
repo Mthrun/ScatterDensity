@@ -1,5 +1,4 @@
-PDEscatter <-
-function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius, 
+PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius, 
     sampleParetoRadius, NrOfContourLines = 20, Plotter = "native", 
     DrawTopView = TRUE, xlab = "X", ylab = "Y", main = "PDEscatter", 
     xlim, ylim, Legendlab_ggplot = "value") 
@@ -114,21 +113,21 @@ function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius,
         Dists = as.vector(Dists)
     }
     if (ParetoRadius <= 0) {
-        if (nData < 500) {
+        if (nData < 5000) {
             ParetoRadius <- quantile(Dists, 6/100, type = 5, 
                 na.rm = TRUE)
         }
         else {
-            ParetoRadius <- c_quantile(Dists[is.finite(Dists)], 
+            ParetoRadius <- quantile4LargeVectors(Dists[is.finite(Dists)], 
                 6/100)
         }
         if (ParetoRadius == 0) {
-            if (nData < 500) {
+            if (nData < 5000) {
                 ParetoRadius <- quantile(Dists, 20/100, type = 5, 
                   na.rm = TRUE)
             }
             else {
-                ParetoRadius <- c_quantile(Dists[is.finite(Dists)], 
+                ParetoRadius <- quantile4LargeVectors(Dists[is.finite(Dists)], 
                   20/100)
             }
             if (ParetoRadius == 0) {
@@ -183,7 +182,7 @@ function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius,
     }
     else {
         switch(Plotter, ggplot = {
-            print("Plotly plot is used because ggplot is not implemented for option DrawTopView=FALSE.")
+            message("Plotly plot is used because ggplot is not implemented for option DrawTopView=FALSE.")
             if(requireNamespace("plotly")){
             plt <- plotly::layout(plt, scene = list(xaxis = list(title = xlab), 
                 yaxis = list(title = ylab), zaxis = list(title = "PDE"), 
@@ -194,7 +193,7 @@ function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius,
             }
      
         }, native = {
-            print("Plotly plot is used because native is not implemented for option DrawTopView=FALSE.")
+            message("Plotly plot is used because native is not implemented for option DrawTopView=FALSE.")
             requireNamespace("plotly")
             plt <- plotly::layout(plt, scene = list(xaxis = list(title = xlab), 
                 yaxis = list(title = ylab), zaxis = list(title = "PDE"), 

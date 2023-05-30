@@ -50,10 +50,10 @@ lambda has to chosen by the user and is a sensitive parameter.
 
 }
 \references{
-[Eilers/Goeman, 2004]  Eilers, P. H., & Goeman, J. J.: Enhancing scatterplots with smoothed densities, Bioinformatics, Vol. 20(5), pp. 623-628. 2004.
+[Eilers/Goeman, 2004]  Eilers, P. H., & Goeman, J. J.: Enhancing scatterplots with smoothed densities, Bioinformatics, Vol. 20(5), pp. 623-628.DOI: \doi{10.1093/bioinformatics/btg454}, 2004.
 }
 \author{
-Michael Thrun, reimplemented from Matlab (Alfred Ultsch)
+Michael Thrun
 }
 
 \examples{

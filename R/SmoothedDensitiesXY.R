@@ -1,5 +1,4 @@
-SmoothedDensitiesXY <-
-function (X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt = FALSE) 
+SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt = FALSE) 
 {
     if (!requireNamespace("pracma")) 
         stop("pracma package is missing")

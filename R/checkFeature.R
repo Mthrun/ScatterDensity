@@ -1,5 +1,4 @@
-checkFeature <-
-function(x,varname='x',Funname=""){
+checkFeature =function(x,varname='x',Funname=""){
   #achtung deparse1(substitute(X))
   #funktioniert nach aufruf dieser funktion nichtmehr
   if(missing(x)){
