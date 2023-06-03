@@ -1,47 +1,50 @@
-DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE, Plotter = "native", 
-            Silent = FALSE, Marginals = FALSE, pch = 10, Size = 1, BW = TRUE, 
-            PDEsample = 5000, lwd = 2, na.rm = TRUE,Polygon, ...) 
-  {
-    
-    if (length(X) != length(Y)) {
+DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
+                                 Plotter = "native", Silent = FALSE,
+                                 Marginals = FALSE, pch = 10, Size = 1, BW = TRUE,
+                                 PDEsample = 5000, lwd = 2, na.rm = TRUE,
+                                 Title = "",
+                                 Polygon, ...){
+    # 
+    if(length(X) != length(Y)){
       stop("DensityScatter.DDCAL: length of X points does not equal lengt of Y-points")
     }
-    if (missing(xlab)) 
+    if(missing(xlab)){
       xlab = deparse1(substitute(X))
-    if (missing(ylab)) 
+    }
+    if(missing(ylab)){
       ylab = deparse1(substitute(Y))
-    
-    if(isTRUE(na.rm)) {
+    }
+    if(isTRUE(na.rm)){
       ind.na = is.finite(X) & is.finite(Y)
-      X = X[ind.na]
-      Y = Y[ind.na]
+      X      = X[ind.na]
+      Y      = Y[ind.na]
     }
     Bool = FALSE
-    if (length(X) > PDEsample && isFALSE(SDHorPDE)) {
+    if(length(X) > PDEsample && isFALSE(SDHorPDE)) {
       Bool = TRUE
-      ind = sample(1:length(X), PDEsample)
+      ind  = sample(1:length(X), PDEsample)
+    }else{
+      ind  = 1:length(X)
     }
-    else {
-      ind = 1:length(X)
-    }
-    if (isFALSE(Silent)) 
+    if(isFALSE(Silent)){
       message("DensityScatter.DDCAL: Estimating Density...")
-    if (isTRUE(SDHorPDE)) {
-      Dens = SmoothedDensitiesXY(X = X[ind], Y = Y[ind], PlotIt = FALSE)$Densities
     }
-    else {
+    if(isTRUE(SDHorPDE)){
+      Dens = SmoothedDensitiesXY(X = X[ind], Y = Y[ind], PlotIt = FALSE)$Densities
+    }else{
       Dens = PDEscatter(x = X[ind], y = Y[ind], PlotIt = -1)$Densities
     }
     
-    if (isFALSE(Silent)) 
+    if(isFALSE(Silent)){
       message("DensityScatter.DDCAL: Estimating colors...")
+    }
     cls = DDCAL(Dens, nClusters = 12, minBoundary = 0.2, 
                 maxBoundary = 0.6, numSimulations = 20, 
                 csTolerance = 0.45, csToleranceIncrease = 0.5)
     xlim = c(min(X, na.rm = T), max(X, na.rm = T))
     ylim = c(min(Y, na.rm = T), max(Y, na.rm = T))
-    cols <- rep(NA_character_, length(ind))
-    ncolors = 1
+    cols = rep(NA_character_, length(ind))
+    ncolors  = 1
     ncolors2 = 1
     colpalette = colorRampPalette(c("navyblue", "darkblue", rep("blue", 
                                   ncolors2), rep("turquoise", ncolors2), rep("green", ncolors), 
@@ -101,8 +104,7 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE, Plotter = "n
         
         #par(def.par)#apparantly on.exit is the better solution
       }
-    }
-    else if (Plotter == "ggplot2") {
+    }else if (Plotter == "ggplot2") {
       if (isFALSE(Silent)) 
         message("DensityScatter.DDCAL: Preparing for ggplot2..")
       if (isTRUE(Bool)) {
@@ -148,9 +150,83 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE, Plotter = "n
         #print(ggobj)
         return(ggobj)
       }
-    }
-    else {
-      if (isFALSE(Silent)) 
-        message("DensityScatter.DDCAL: plotly not implemented")
+    }else{
+      if(isFALSE(Silent)){
+        message("DensityScatter.DDCAL: Preparing plotly visualization...")
+      }
+      palette = colorRampPalette(c("darkblue", "blue", "lightblue1", "green","yellow", "red", "darkred"))
+      cls     = cls + 1
+      Colors  = palette(length(unique(cls)))
+      
+      if(isFALSE(Marginals)){
+        #mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 2 * PDEsample)
+        x = Sys.time()
+        mod = ClusterR::MiniBatchKmeans(data = cbind(X, Y), clusters = 2 * PDEsample)
+        #VKM = FCPS::kmeansClustering(cbind(X,Y), ClusterNo = 2*PDEsample)
+        y = Sys.time()
+        y-x
+        # BatchKmeans
+        # 10k samples =>  2.124521 mins
+        
+        # 10k Samples => 4.951251 mins
+        #  5k Samples => 5.877196 mins
+        #  2k Samples => 1.521917 mins
+        
+        Centroids = mod$centroids
+        #Idx = sample(1:length(X), 10000, replace = FALSE)
+        #KMeansCls = VKM$Cls
+        #CentroidsIdx = unlist(lapply(unique(KMeansCls), function(x, KMeansCls){
+        #  which(KMeansCls == x)[1]
+        #}, KMeansCls))
+        #Idx = as.numeric(CentroidsIdx)
+        
+        plotOut = plotly::plot_ly()
+        plotOut = plotly::add_markers(p = plotOut,
+                                      x = X[Idx], y = Y[Idx],
+                                      marker = list(color = Colors[cls[Idx]], size = 3), type = "scatter")
+        
+        plotOut = plotly::add_markers(p = plotOut,
+                                      x = X, y = Y,
+                                      marker = list(color = Colors[cls], size = 3), type = "scatter")
+        
+        
+        plotOut = plotly::layout(p      = plotOut,
+                                 title  = Title,
+                                 xaxis  = list(title = xlab, fixedrange = T, scaleanchor="y", scaleratio=1),
+                                 yaxis  = list(title = ylab, fixedrange = T),
+                                 plot_bgcolor = "rgb(254, 254, 254)",              # plot_bgcolor = "rgb(254, 247, 234)",
+                                 paper_bgcolor = "rgb(254, 254, 254)")             # paper_bgcolor = "rgb(254, 247, 234)"
+        plotOut = plotly::hide_colorbar(p = plotOut)
+        plotOut = plotly::hide_legend(p = plotOut)
+        plotOut = plotly::config(p = plotOut, displayModeBar=F, editable=T)
+        print(plotOut)
+      }else{
+        PDE1 = PDEplot(Data = X)
+        PDE2 = PDEplot(Data = Y)
+        DomX = PDE1$kernels
+        ValX = PDE1$paretoDensity
+        DomY = PDE2$kernels
+        ValY = PDE2$paretoDensity
+        
+        Fig1 = plot_ly(x = DomX, y = ValX, type = 'scatter', mode = "lines",
+                       alpha =.5, line = list(color = "black"))
+        Fig2 = plotly_empty()
+        Fig3 = plot_ly(x = X, y = Y, type = 'scatter',
+                       mode = 'markers', alpha = .5,
+                       marker = list(color = Colors[cls], size = 3))
+        #layout(p = Fig1, yaxis = list(showline = TRUE), xaxis = list(showline = TRUE))
+        Fig4 = plot_ly(y = DomY, x = ValY, type = 'scatter', mode = "lines",
+                       alpha = .5, line = list(color = "black"))
+        plotOut = subplot(Fig1, Fig2, Fig3, Fig4, nrows = 2,
+                          heights = c(.2, .8), widths = c(.8,.2),
+                          margin = 0, shareX = TRUE, shareY = TRUE)
+        plotOut = layout(p = marg_plot, showlegend = F, barmode = 'overlay',
+                         yaxis = list("showline" = FALSE),
+                         xaxis = list("showline" = FALSE))
+        print(plotOut)
+      }
+      return(plotOut)
+      #if(isFALSE(Silent)) 
+      #  message("DensityScatter.DDCAL: plotly not implemented")
     }
   }
