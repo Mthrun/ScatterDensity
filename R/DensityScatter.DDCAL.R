@@ -160,11 +160,11 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
       
       if(isFALSE(Marginals)){
         #mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 2 * PDEsample)
-        x = Sys.time()
-        mod = ClusterR::MiniBatchKmeans(data = cbind(X, Y), clusters = 2 * PDEsample)
+        #x = Sys.time()
+        #mod = ClusterR::MiniBatchKmeans(data = cbind(X, Y), clusters = 2 * PDEsample)
         #VKM = FCPS::kmeansClustering(cbind(X,Y), ClusterNo = 2*PDEsample)
-        y = Sys.time()
-        y-x
+        #y = Sys.time()
+        #y-x
         # BatchKmeans
         # 10k samples =>  2.124521 mins
         
@@ -172,7 +172,7 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
         #  5k Samples => 5.877196 mins
         #  2k Samples => 1.521917 mins
         
-        Centroids = mod$centroids
+        #Centroids = mod$centroids
         #Idx = sample(1:length(X), 10000, replace = FALSE)
         #KMeansCls = VKM$Cls
         #CentroidsIdx = unlist(lapply(unique(KMeansCls), function(x, KMeansCls){
@@ -181,15 +181,12 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
         #Idx = as.numeric(CentroidsIdx)
         
         plotOut = plotly::plot_ly()
-        plotOut = plotly::add_markers(p = plotOut,
-                                      x = X[Idx], y = Y[Idx],
-                                      marker = list(color = Colors[cls[Idx]], size = 3), type = "scatter")
-        
+        #plotOut = plotly::add_markers(p = plotOut,
+        #                              x = X[Idx], y = Y[Idx],
+        #                              marker = list(color = Colors[cls[Idx]], size = 3), type = "scatter")
         plotOut = plotly::add_markers(p = plotOut,
                                       x = X, y = Y,
                                       marker = list(color = Colors[cls], size = 3), type = "scatter")
-        
-        
         plotOut = plotly::layout(p      = plotOut,
                                  title  = Title,
                                  xaxis  = list(title = xlab, fixedrange = T, scaleanchor="y", scaleratio=1),
