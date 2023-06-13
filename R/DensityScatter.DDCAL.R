@@ -1,10 +1,23 @@
-DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
-                                 Plotter = "native", Silent = FALSE,
-                                 Marginals = FALSE, pch = 10, Size = 1, BW = TRUE,
-                                 PDEsample = 5000, lwd = 2, na.rm = TRUE,
-                                 Title = "",
-                                 Polygon, ...){
-    # 
+DensityScatter.DDCAL = function (X,
+                                 Y,
+                                 Plotter = "native",
+                                 SDHorPDE = TRUE,
+                                 PDEsample = 5000,
+                                 Marginals = FALSE,
+                                 na.rm = TRUE,
+                                 pch = 10,
+                                 Size = 1,
+                                 xlab,
+                                 ylab,
+                                 main = "",
+                                 lwd = 2,
+                                 xlim,
+                                 ylim,
+                                 Polygon,
+                                 BW = TRUE,
+                                 Silent = FALSE,
+                                 ...) {
+  # 
     if(length(X) != length(Y)){
       stop("DensityScatter.DDCAL: length of X points does not equal lengt of Y-points")
     }
@@ -41,8 +54,17 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
     cls = DDCAL(Dens, nClusters = 12, minBoundary = 0.2, 
                 maxBoundary = 0.6, numSimulations = 20, 
                 csTolerance = 0.45, csToleranceIncrease = 0.5)
-    xlim = c(min(X, na.rm = T), max(X, na.rm = T))
-    ylim = c(min(Y, na.rm = T), max(Y, na.rm = T))
+	
+	if(missing(xlim)){
+	    xlim = c(min(X, na.rm = T), max(X, na.rm = T))
+	}
+	
+	if(missing(ylim)){
+		ylim = c(min(Y, na.rm = T), max(Y, na.rm = T))
+	}
+  if(!missing(Polygon)){
+    Polygon=assertPolygon(Polygon)
+  }
     cols = rep(NA_character_, length(ind))
     ncolors  = 1
     ncolors2 = 1
@@ -74,13 +96,13 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
         }
         plot(X[ind2], Y[ind2], xlab = xlab, ylab = ylab, 
              xlim = xlim, ylim = ylim, col = "navyblue", pch = 3, 
-             cex = Size, ...)
+             cex = Size,main=main, ...)
         points(x = X[ind], y = Y[ind], col = cols, pch = pch, 
                cex = Size, ...)
       }
       else {
         plot(x = X, y = Y, xlab = xlab, ylab = ylab, xlim = xlim, 
-             ylim = ylim, col = cols, pch = pch, cex = Size, ...)
+             ylim = ylim, col = cols, pch = pch, cex = Size,main=main, ...)
       }
       if(!missing(Polygon)){
         points(Polygon[,1],Polygon[,2],lwd=3,col="magenta",type="l")
@@ -188,7 +210,7 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
                                       x = X, y = Y,
                                       marker = list(color = Colors[cls], size = 3), type = "scatter")
         plotOut = plotly::layout(p      = plotOut,
-                                 title  = Title,
+                                 title  = main,
                                  xaxis  = list(title = xlab, fixedrange = T, scaleanchor="y", scaleratio=1),
                                  yaxis  = list(title = ylab, fixedrange = T),
                                  plot_bgcolor = "rgb(254, 254, 254)",              # plot_bgcolor = "rgb(254, 247, 234)",
@@ -198,28 +220,28 @@ DensityScatter.DDCAL = function (X, Y, xlab, ylab, SDHorPDE = TRUE,
         plotOut = plotly::config(p = plotOut, displayModeBar=F, editable=T)
         print(plotOut)
       }else{
-        PDE1 = PDEplot(Data = X)
-        PDE2 = PDEplot(Data = Y)
+        PDE1 = DataVisualizations::PDEplot(Data = X)
+        PDE2 = DataVisualizations::PDEplot(Data = Y)
         DomX = PDE1$kernels
         ValX = PDE1$paretoDensity
         DomY = PDE2$kernels
         ValY = PDE2$paretoDensity
         
-        Fig1 = plot_ly(x = DomX, y = ValX, type = 'scatter', mode = "lines",
+        Fig1 = plotly::plot_ly(x = DomX, y = ValX, type = 'scatter', mode = "lines",
                        alpha =.5, line = list(color = "black"))
-        Fig2 = plotly_empty()
-        Fig3 = plot_ly(x = X, y = Y, type = 'scatter',
-                       mode = 'markers', alpha = .5,
-                       marker = list(color = Colors[cls], size = 3))
+        Fig2 = plotly::plotly_empty()
+        Fig3 = plotly::plot_ly(x = X, y = Y, type = 'scatter',
+                               mode = 'markers', alpha = .5,
+                               marker = list(color = Colors[cls], size = 3))
         #layout(p = Fig1, yaxis = list(showline = TRUE), xaxis = list(showline = TRUE))
-        Fig4 = plot_ly(y = DomY, x = ValY, type = 'scatter', mode = "lines",
-                       alpha = .5, line = list(color = "black"))
-        plotOut = subplot(Fig1, Fig2, Fig3, Fig4, nrows = 2,
-                          heights = c(.2, .8), widths = c(.8,.2),
-                          margin = 0, shareX = TRUE, shareY = TRUE)
-        plotOut = layout(p = marg_plot, showlegend = F, barmode = 'overlay',
-                         yaxis = list("showline" = FALSE),
-                         xaxis = list("showline" = FALSE))
+        Fig4 = plotly::plot_ly(y = DomY, x = ValY, type = 'scatter', mode = "lines",
+                               alpha = .5, line = list(color = "black"))
+        plotOut = plotly::subplot(Fig1, Fig2, Fig3, Fig4, nrows = 2,
+                                  heights = c(.2, .8), widths = c(.8,.2),
+                                  margin = 0, shareX = TRUE, shareY = TRUE)
+        plotOut = plotly::layout(p = plotOut, showlegend = F, barmode = 'overlay',
+                                 yaxis = list("showline" = FALSE),
+                                 xaxis = list("showline" = FALSE))
         print(plotOut)
       }
       return(plotOut)
