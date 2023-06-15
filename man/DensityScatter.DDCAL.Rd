@@ -68,7 +68,7 @@ String, title of the y axis. Default: "Y",   see \code{plot()} function
 }
 
   \item{Polygon}{
-(Optional) [1:p,1:2] numeric matrix that defines for x and y coordinates a polygon in magenta, works only for native method
+(Optional) [1:p,1:2] numeric matrix that defines for x and y coordinates a polygon in magenta
 }
   \item{BW}{
 (Optional) Boolean, if TRUE ggplot2 will use a white background, if FALSE the typical ggplot2 backgournd is used. Not needed if "\code{native}" as Plotter is used. Default is TRUE
