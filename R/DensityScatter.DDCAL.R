@@ -1,8 +1,9 @@
 DensityScatter.DDCAL = function (X,
                                  Y,
+                                 nClusters = 12,
                                  Plotter = "native",
                                  SDHorPDE = TRUE,
-                                 PDEsample = 5000,
+                                 PDEsample = 10000,
                                  Marginals = FALSE,
                                  na.rm = TRUE,
                                  pch = 10,
@@ -51,12 +52,13 @@ DensityScatter.DDCAL = function (X,
   if(isFALSE(Silent)){
     message("DensityScatter.DDCAL: Estimating colors...")
   }
-  cls = DDCAL(Dens, nClusters = 12, minBoundary = 0.2, 
+  
+  cls = DDCAL(Dens, nClusters = nClusters, minBoundary = 0.2, 
               maxBoundary = 0.6, numSimulations = 20, 
               csTolerance = 0.45, csToleranceIncrease = 0.5)
 
 	if(missing(xlim)){
-	    xlim = c(min(X, na.rm = T), max(X, na.rm = T))
+    xlim = c(min(X, na.rm = T), max(X, na.rm = T))
 	}
 	
 	if(missing(ylim)){
@@ -175,7 +177,7 @@ DensityScatter.DDCAL = function (X,
     if (isTRUE(BW)) 
       ggobj = ggobj + ggplot2::theme_bw()
     if(nchar(main) != 0)
-      ggobj = ggobj + ggtitle(main) + theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+      ggobj = ggobj + ggplot2::ggtitle(main) + ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5, face = "bold"))
     if (isTRUE(Marginals)) {
       ggobj2 <- ggExtra::ggMarginal(ggobj, type = "density")
       #print(ggobj2)
@@ -189,6 +191,7 @@ DensityScatter.DDCAL = function (X,
     if(isFALSE(Silent)){
       message("DensityScatter.DDCAL: Preparing plotly visualization...")
     }
+    
     palette = colorRampPalette(c("darkblue", "blue", "lightblue1", "green","yellow", "red", "darkred"))
     
     cls = cls + 1
@@ -202,6 +205,7 @@ DensityScatter.DDCAL = function (X,
     }
     
     if(isFALSE(Marginals)){
+      
       #mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 2 * PDEsample)
       #x = Sys.time()
       #mod = ClusterR::MiniBatchKmeans(data = cbind(X, Y), clusters = 2 * PDEsample)
@@ -230,7 +234,7 @@ DensityScatter.DDCAL = function (X,
       plotOut = plotly::add_markers(p = plotOut,
                                     x = X[ind], y = Y[ind],
                                     marker = list(color = Colors[cls], size = 3), type = "scatter")
-      if(!is.null(Polygon)){
+      if(!missing(Polygon)){
         plotOut = plotly::add_polygons(p = plotOut,
                                        x = Polygon[,1], y = Polygon[,2], color = I("magenta"), opacity = 0.7)
       }
@@ -240,7 +244,7 @@ DensityScatter.DDCAL = function (X,
       
       plotOut = plotly::layout(p      = plotOut,
                                title  = main,
-                               xaxis  = list(title = xlab, fixedrange = T, scaleanchor="y", scaleratio=1),
+                               xaxis  = list(title = xlab, fixedrange = T),#, scaleanchor="y", scaleratio=1),
                                yaxis  = list(title = ylab, fixedrange = T),
                                plot_bgcolor = "rgb(254, 254, 254)",              # plot_bgcolor = "rgb(254, 247, 234)",
                                paper_bgcolor = "rgb(254, 254, 254)")             # paper_bgcolor = "rgb(254, 247, 234)"
@@ -262,7 +266,7 @@ DensityScatter.DDCAL = function (X,
       Fig3 = plotly::plot_ly(x = X[ind], y = Y[ind], type = 'scatter',
                              mode = 'markers', alpha = .5,
                              marker = list(color = Colors[cls], size = 3))
-      if(!is.null(Polygon)){
+      if(!missing(Polygon)){
         Fig3 = plotly::add_polygons(p = Fig3,
                                     x = Polygon[,1], y = Polygon[,2], color = I("magenta"), opacity = 0.7)
       }
@@ -278,7 +282,7 @@ DensityScatter.DDCAL = function (X,
                                xaxis = list(title = xlab, showline = FALSE))
       print(plotOut)
     }
-    return(plotOut)
+    return(list("Plot" = plotOut, "Cls" = cls))
     #if(isFALSE(Silent)) 
     #  message("DensityScatter.DDCAL: plotly not implemented")
   }

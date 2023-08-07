@@ -2,18 +2,18 @@
 \alias{DensityScatter.DDCAL}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Scatter density plot using DDCAL
+Scatter density plot [Brinkmann et al., 2023]
 }
 \description{
-Density estimation (PDE) [Ultsch, 2005] or "SDH" [Eilers/Goeman, 2004] used for a scatter density plot, with clustering of densities with DDCAL [Lux/Rinderle-Ma, 2023]
+Density estimation (PDE) [Ultsch, 2005] or "SDH" [Eilers/Goeman, 2004] used for a scatter density plot, with clustering of densities with DDCAL [Lux/Rinderle-Ma, 2023] proposed by [Brinkmann et al., 2023].
 }
 \usage{
-DensityScatter.DDCAL(X, Y, Plotter = "native", 
-SDHorPDE = TRUE, PDEsample = 5000,
+DensityScatter.DDCAL(X, Y, nClusters = 12, Plotter = "native", 
+SDHorPDE = TRUE, PDEsample = 10000,
 Marginals = FALSE, na.rm=TRUE,
- pch = 10, Size = 1, 
-xlab, ylab, main = "",lwd = 2,
-xlim,ylim,Polygon,BW = TRUE,Silent = FALSE, ...)
+pch = 10, Size = 1, 
+xlab="x", ylab="y", main = "",lwd = 2,
+xlim=NULL,ylim=NULL,Polygon,BW = TRUE,Silent = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +22,10 @@ Numeric vector [1:n], first feature (for x axis values)
 }
   \item{Y}{
 Numeric vector [1:n], second feature (for y axis values)
+}
+  \item{nClusters}{
+Integer defining the number of clusters (colors) used for finding a hard color
+transition.
 }
   \item{Plotter}{
 (Optional) String, name of the plotting backend to use. Possible values are: "\code{native}" or "\code{ggplot2}"
@@ -59,7 +63,6 @@ String, title of the y axis. Default: "Y",   see \code{plot()} function
 (Optional) Scalar, thickness of the lines used for the marginal distributions (only needed if \code{Marginals=TRUE}), see \code{plot()}. Default = 2
 }
 
-
   \item{xlim}{
 (Optional) numerical vector, min and max of x values to be plottet
 }
@@ -96,6 +99,8 @@ If "\code{ggplot2}" as Plotter is used, the ggobj is returned
 [Eilers/Goeman, 2004]  Eilers, P. H., & Goeman, J. J.: Enhancing scatterplots with smoothed densities, Bioinformatics, Vol. 20(5), pp. 623-628. 2004.
 
 [Lux/Rinderle-Ma, 2023]  Lux, M. & Rinderle-Ma, S.: DDCAL: Evenly Distributing Data into Low Variance Clusters Based on Iterative Feature Scaling, Journal of Classification vol. 40, pp. 106-144, 2023.
+
+[Brinkmann et al., 2023]  Brinkmann, L., Stier, Q., & Thrun, M. C.: Computing Sensitive Color Transitions for the Identification of Two-Dimensional Structures, Proc. Data Science, Statistics & Visualisation (DSSV) and the European Conference on Data Analysis (ECDA), p.109, Antwerp, Belgium, July 5-7, 2023. 
 
 }
 \author{

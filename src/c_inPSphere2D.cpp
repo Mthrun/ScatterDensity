@@ -4,6 +4,14 @@ using namespace Rcpp;
 using namespace std;
 using namespace sugar;
 
+#include <iostream>
+#include <ctime>
+
+
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
@@ -18,14 +26,21 @@ IntegerVector c_inPSphere2D(NumericMatrix data, IntegerVector xBinNr, IntegerVec
   *   Das Problem ist, in R treten manchmal 1en auf, wo
   *   sie nicht hingeh?ren.
   */
+
   
   // This will hold the result
   std::vector<int> output;
   output.resize(nrData,0);
-  
+
+#ifdef _OPENMP
+  int max_threads = omp_get_max_threads();
+  omp_set_num_threads(max_threads);
+  #pragma omp parallel for collapse(2)
+#endif
   for(int i=0; i < int(nrXBins); i++){
     for(int j=0; j < int(nrYBins); j++){
       std::vector<int> pointsInCenterTileInd, pointsInSurroundingInd;
+
       for(unsigned int k=0; k < nrData; k++){
         if(xBinNr(k) == i && yBinNr(k) == j){
           pointsInCenterTileInd.push_back(k);
@@ -33,6 +48,7 @@ IntegerVector c_inPSphere2D(NumericMatrix data, IntegerVector xBinNr, IntegerVec
           pointsInSurroundingInd.push_back(k);//Punkte in Umgebung
         }
       }
+
       int nrInCenterTile = pointsInCenterTileInd.size();
       if(nrInCenterTile > 0){
         std::vector<int> points;

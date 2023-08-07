@@ -63,7 +63,8 @@ Disk=""
 #base on the gated information of the previous gate
 #Gatenames=c("Lymphocytes","Leukocytes")
 #apply interactive function
-#GateInfo=ScatterDensity::InteractiveSequentialGates(Data,GateVarsMat =GateVarsMat,Gatenames =Gatenames#,PlotIt = T)
+#GateInfo=ScatterDensity::InteractiveSequentialGates(Data,
+#GateVarsMat=GateVarsMat,Gatenames =Gatenames#,PlotIt = T)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

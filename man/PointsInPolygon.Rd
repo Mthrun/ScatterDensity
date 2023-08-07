@@ -46,7 +46,7 @@ Michael Thrun
 }
 
 \examples{
-XY=cbind(runif(100,min = -1,max = 1),rnorm(100))
+XY=cbind(runif(80,min = -1,max = 1),rnorm(80))
 #closed polygon
 polymat <- cbind(x = c(0,1,1,0), y = c(0,0,1,1))
 Cls=PointsInPolygon(XY,polymat,PlotIt = TRUE)

@@ -1,0 +1,17 @@
+citHeader("To cite the 'ScatterDensity' R package in publications, please use:")
+
+bibentry(bibtype = "inproceedings",
+  title = "Computing Sensitive Color Transitions for the Identification of Two-Dimensional Structures",
+  booktitle = "Data Science, Statistics & Visualisation (DSSV) and the European Conference on Data Analysis (ECDA)",
+  author = c(person(given="Luca", family="Brinkmann"),person(given="Quirin", family="Stier"),person(given="Michael C.", family="Thrun")),
+  year = "2023",
+  pages="109",
+  textVersion =
+  paste(
+"Brinkmann, L., Stier, Q., & Thrun, M. C.:",
+"Computing Sensitive Color Transitions for the Identification of Two-Dimensional Structures,",
+"Proc. Data Science, Statistics & Visualisation (DSSV) and the European Conference on Data Analysis (ECDA),",
+"pp. 109,",
+"Antwerp, Belgium, July 5-7,",
+"2023."
+))

@@ -7,5 +7,5 @@ importFrom("grDevices", "colorRampPalette")
 importFrom("graphics", "axis", "hist", "lines", "par", "points", "title")
 importFrom("methods", "as")
 importFrom("stats", "dist", "quantile", "sd")
-importFrom("utils", "head")
+importFrom("utils", "head", "tail")
 
