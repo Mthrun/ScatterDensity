@@ -3,7 +3,7 @@ DensityScatter.DDCAL = function (X,
                                  nClusters = 12,
                                  Plotter = "native",
                                  SDHorPDE = TRUE,
-                                 PDEsample = 10000,
+                                 PDEsample = 5000,
                                  Marginals = FALSE,
                                  na.rm = TRUE,
                                  pch = 10,
@@ -135,6 +135,7 @@ DensityScatter.DDCAL = function (X,
       
       #par(def.par)#apparantly on.exit is the better solution
     }
+    return(Dens)
   }else if (Plotter == "ggplot2") {
     if (isFALSE(Silent)) 
       message("DensityScatter.DDCAL: Preparing for ggplot2..")
@@ -144,11 +145,11 @@ DensityScatter.DDCAL = function (X,
                                         2 * PDEsample)
         Centroids = mod$centroids
         DFnull = data.frame(x2 = Centroids[, 1], y2 = Centroids[,2], Colors = "navyblue")
-      }
-      else {
+      }else {
         ind2 = 1:length(X)
         DFnull = data.frame(x2 = X, y2 = Y, Colors = "navyblue")[ind2,]
       }
+      
       if (isFALSE(Silent)) 
         message("DensityScatter.DDCAL: using ggplot2..")
       DF = data.frame(x = X[ind], y = Y[ind], Colors = cols, 
@@ -160,20 +161,22 @@ DensityScatter.DDCAL = function (X,
         ggplot2::geom_point(size = Size, shape = pch, 
                             alpha = 0.4) + ggplot2::theme(legend.position = "none") + 
         ggplot2::scale_color_identity()
-    }
-    else {
+    }else {
       DF = data.frame(x = X, y = Y, Colors = cols, Cls = cls)
       ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
                                                col = "Colors"), alpha = 0.05) +
         ggplot2::geom_point(size = Size, shape = pch) + 
         ggplot2::theme(legend.position = "none") + ggplot2::scale_color_identity()
     }
+    
     if(!missing(Polygon)) {
       DFPoly = data.frame(PolygonX = Polygon[,1], PolygonY = Polygon[,2])
       ggobj = ggobj + ggplot2::geom_polygon(data = DFPoly, ggplot2::aes_string(x = "PolygonX", y = "PolygonY"), 
                                             fill = "transparent", color = "magenta", size = 2)
     }
+    
     ggobj = ggobj + xlab(xlab) + ylab(ylab)
+    
     if (isTRUE(BW)) 
       ggobj = ggobj + ggplot2::theme_bw()
     if(nchar(main) != 0)
@@ -181,11 +184,10 @@ DensityScatter.DDCAL = function (X,
     if (isTRUE(Marginals)) {
       ggobj2 <- ggExtra::ggMarginal(ggobj, type = "density")
       #print(ggobj2)
-      return(ggobj2)
-    }
-    else {
+      return(list("Density" = Dens, "ggobj" = ggobj2))
+    }else {
       #print(ggobj)
-      return(ggobj)
+      return(list("Density" = Dens, "ggobj" = ggobj))
     }
   }else{
     if(isFALSE(Silent)){
@@ -282,7 +284,7 @@ DensityScatter.DDCAL = function (X,
                                xaxis = list(title = xlab, showline = FALSE))
       print(plotOut)
     }
-    return(list("Plot" = plotOut, "Cls" = cls))
+    return(list("Density" = Dens, "Cls" = cls, "Plot" = plotOut))
     #if(isFALSE(Silent)) 
     #  message("DensityScatter.DDCAL: plotly not implemented")
   }

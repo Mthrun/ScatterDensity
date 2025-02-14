@@ -9,7 +9,7 @@ Density estimation (PDE) [Ultsch, 2005] or "SDH" [Eilers/Goeman, 2004] used for 
 }
 \usage{
 DensityScatter.DDCAL(X, Y, nClusters = 12, Plotter = "native", 
-SDHorPDE = TRUE, PDEsample = 10000,
+SDHorPDE = TRUE, PDEsample = 5000,
 Marginals = FALSE, na.rm=TRUE,
 pch = 10, Size = 1, 
 xlab="x", ylab="y", main = "",lwd = 2,

@@ -3,6 +3,7 @@ export("DensityScatter.DDCAL","InteractiveGate","InteractiveSequentialGates","Sm
        "PDEscatter","DDCAL","PointsInPolygon","PolygonGate")
 
 import(Rcpp)
+importFrom(RcppParallel,RcppParallelLibs,defaultNumThreads,setThreadOptions)
 importFrom("grDevices", "colorRampPalette")
 importFrom("graphics", "axis", "hist", "lines", "par", "points", "title")
 importFrom("methods", "as")

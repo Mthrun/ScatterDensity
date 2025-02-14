@@ -8,7 +8,9 @@ Smoothed Densities X with Y
 Density is the smothed histogram density at [X,Y] of [Eilers/Goeman, 2004]
 }
 \usage{
-SmoothedDensitiesXY(X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt = FALSE)
+SmoothedDensitiesXY(X, Y, nbins, lambda, Xkernels, Ykernels,
+
+Compute="Cpp", PlotIt = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,6 +35,9 @@ bin kernels in x direction are given
   \item{Ykernels}{
 bin kernels y direction are given
 }
+  \item{Compute}{
+Either \code{R}, \code{Cpp} or \code{Parallel}, defines where heavy-load computation is performed
+}
   \item{PlotIt}{
 FALSE: no plotting, TRUE: simple plot
 }
@@ -45,8 +50,10 @@ lambda has to chosen by the user and is a sensitive parameter.
    \item{Densities}{numeric vector [1:n] is the smothed density in 3D  }
   \item{Xkernels}{numeric vector [1:nx], nx defined by \code{nbins}, such that mesh(Xkernels,Ykernels,F) form the ( not NaN) smothed densisties}
   \item{Ykernels}{numeric vector [1:ny], nx defined by \code{nbins}, such that mesh(Xkernels,Ykernels,F) form the ( not NaN) smothed densisties}
-  \item{hist_F_2D}{matrix [1:nx,1:ny] beeing the smoothed 2D histogram }
-  \item{ind}{an index such that \code{Densities = hist_F_2D[ind]}}
+  \item{GridDensity}{matrix [1:nx,1:ny] beeing the smoothed 2D histogram }
+  \item{Points2GridInd}{an index such that \code{Densities = GridDensity[Points2GridInd]}}
+   \item{MaxInGrid}{scalar, maximum number of points in grid that was used to normalize \code{GridDensity} }
+  
 
 }
 \references{
@@ -60,7 +67,7 @@ Michael Thrun
 \dontshow{
 c1 = rnorm(n=40)
 c2 = rnorm(n=40,1,2)
-densities = SmoothedDensitiesXY(c1,c2)$Densities
+densities = SmoothedDensitiesXY(c1,c2)$GridDensity
 }
 
 

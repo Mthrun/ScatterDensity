@@ -9,3 +9,11 @@ quantile4LargeVectors <- function(x, probs) {
     .Call(`_ScatterDensity_quantile4LargeVectors`, x, probs)
 }
 
+smooth1D_C <- function(Y, lambda, na_rm = FALSE, Silent = FALSE) {
+    .Call(`_ScatterDensity_smooth1D_C`, Y, lambda, na_rm, Silent)
+}
+
+smooth1D_parallel <- function(Y, lambda, na_rm = FALSE, Silent = FALSE) {
+    .Call(`_ScatterDensity_smooth1D_parallel`, Y, lambda, na_rm, Silent)
+}
+

@@ -1,4 +1,4 @@
-SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt = FALSE) 
+SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute="Cpp", PlotIt = FALSE) 
 {
     if (!requireNamespace("pracma")) 
         stop("pracma package is missing")
@@ -70,8 +70,27 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt 
     bin[, 1] = pracma::histc(Y, edges2)$bin
     H = pracma::accumarray(bin, rep(1, nrow(bin)), nbins[c(2, 
         1)])/n
-    G = smooth1D(H, nbins[2]/lambda)
-    hist_F_2D = t(smooth1D(t(G), nbins[1]/lambda))
+    
+    Compute=tolower(Compute)
+    Compute=gsub("\\+","p",Compute)
+    switch (Compute,
+      cpp = {
+        G = smooth1D_C(H, nbins[2]/lambda)
+        hist_F_2D = t(smooth1D_C(t(G), nbins[1]/lambda))
+      },
+      r = {
+        G = smooth1D(H, nbins[2]/lambda)
+        hist_F_2D = t(smooth1D(t(G), nbins[1]/lambda))
+      },
+      parallel = {
+        G = smooth1D_parallel(H, nbins[2]/lambda)
+        hist_F_2D = t(smooth1D_parallel(t(G), nbins[1]/lambda))
+      },
+      {
+        stop("SmoothedDensitiesXY:Incorrect Compute parameter selected. Options are 'R','Cpp,'Parallel'")
+      }
+    )
+
     MaxF = max(as.vector(hist_F_2D))
     hist_F_2D = hist_F_2D/MaxF
     m = dim(hist_F_2D)[1]
@@ -84,5 +103,5 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels, PlotIt 
         DataVisualizations::zplot(X, Y, Density)
     }
     return(list(Densities = as.vector(Density), Xkernels = Xkernels, 
-        Ykernels = Ykernels, hist_F_2D = hist_F_2D, ind = ind))
+        Ykernels = Ykernels, GridDensity = hist_F_2D, Points2GridInd = ind,MaxInGrid=MaxF))
 }
