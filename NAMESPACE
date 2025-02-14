@@ -1,6 +1,6 @@
 useDynLib(ScatterDensity, .registration = TRUE)
 export("DensityScatter.DDCAL","InteractiveGate","InteractiveSequentialGates","SmoothedDensitiesXY", 
-       "PDEscatter","DDCAL","PointsInPolygon","PolygonGate")
+       "PDEscatter","DDCAL","PointsInPolygon","PolygonGate","SampleScatter")
 
 import(Rcpp)
 importFrom(RcppParallel,RcppParallelLibs,defaultNumThreads,setThreadOptions)

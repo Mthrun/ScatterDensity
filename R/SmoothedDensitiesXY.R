@@ -3,12 +3,12 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
     if (!requireNamespace("pracma")) 
         stop("pracma package is missing")
     if (missing(nbins)) {
-        nbins = c(min(length(unique(X)), 1000), min(length(unique(Y)), 
-            1000))
+        nbins = c(min(length(unique(X)), 250), min(length(unique(Y)), 
+                 250))
     }
     else if (is.null(nbins)) {
-        nbins = c(min(length(unique(X)), 1000), min(length(unique(Y)), 
-            1000))
+        nbins = c(min(length(unique(X)), 250), min(length(unique(Y)), 
+                  250))
     }
     else if (length(nbins) == 1) {
         nbins = c(nbins, nbins)
@@ -104,5 +104,5 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
         DataVisualizations::zplot(X, Y, Density)
     }
     return(list(Densities = as.vector(Density), Xkernels = Xkernels, 
-        Ykernels = Ykernels, GridDensity = hist_F_2D, Points2GridInd = ind,MaxInGrid=MaxF))
+        Ykernels = Ykernels, GridDensity = hist_F_2D, Points2GridInd = ind))
 }

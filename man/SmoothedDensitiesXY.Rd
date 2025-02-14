@@ -23,7 +23,7 @@ nbins= nxy      => the nr of bins in x and y is nxy
 nbins = c(nx,ny) => the nr of bins in x is nx and for y is ny
 }
   \item{nbins}{
- number of bins, nbins =200 (default)
+ number of bins, nbins=nx=ny=250 (default)
 }
   \item{lambda}{
 smoothing factor used by the density estimator or c()
@@ -52,8 +52,6 @@ lambda has to chosen by the user and is a sensitive parameter.
   \item{Ykernels}{numeric vector [1:ny], nx defined by \code{nbins}, such that mesh(Xkernels,Ykernels,F) form the ( not NaN) smothed densisties}
   \item{GridDensity}{matrix [1:nx,1:ny] beeing the smoothed 2D histogram }
   \item{Points2GridInd}{an index such that \code{Densities = GridDensity[Points2GridInd]}}
-   \item{MaxInGrid}{scalar, maximum number of points in grid that was used to normalize \code{GridDensity} }
-  
 
 }
 \references{
