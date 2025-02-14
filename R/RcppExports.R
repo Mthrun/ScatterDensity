@@ -13,7 +13,7 @@ smooth1D_C <- function(Y, lambda, na_rm = FALSE, Silent = FALSE) {
     .Call(`_ScatterDensity_smooth1D_C`, Y, lambda, na_rm, Silent)
 }
 
-smooth1D_parallel <- function(Y, lambda, na_rm = FALSE, Silent = FALSE) {
-    .Call(`_ScatterDensity_smooth1D_parallel`, Y, lambda, na_rm, Silent)
+smooth1D_parallel <- function(G, lambda, nbins, smooth_rows = TRUE, na_rm = FALSE, Silent = FALSE) {
+    .Call(`_ScatterDensity_smooth1D_parallel`, G, lambda, nbins, smooth_rows, na_rm, Silent)
 }
 

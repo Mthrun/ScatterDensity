@@ -3,12 +3,12 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
     if (!requireNamespace("pracma")) 
         stop("pracma package is missing")
     if (missing(nbins)) {
-        nbins = c(min(length(unique(X)), 2000), min(length(unique(Y)), 
-            2000))
+        nbins = c(min(length(unique(X)), 1000), min(length(unique(Y)), 
+            1000))
     }
     else if (is.null(nbins)) {
-        nbins = c(min(length(unique(X)), 2000), min(length(unique(Y)), 
-            2000))
+        nbins = c(min(length(unique(X)), 1000), min(length(unique(Y)), 
+            1000))
     }
     else if (length(nbins) == 1) {
         nbins = c(nbins, nbins)
@@ -83,8 +83,9 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
         hist_F_2D = t(smooth1D(t(G), nbins[1]/lambda))
       },
       parallel = {
-        G = smooth1D_parallel(H, nbins[2]/lambda)
-        hist_F_2D = t(smooth1D_parallel(t(G), nbins[1]/lambda))
+        G = smooth1D_parallel(H, nbins[2]/lambda, nbins[2],smooth_rows=TRUE)
+        hist_F_2D = smooth1D_parallel(G,nbins[1]/lambda, nbins[1],smooth_rows=FALSE)
+        #hist_F_2D = t(smooth1D_parallel(t(G), nbins[1]/lambda))
       },
       {
         stop("SmoothedDensitiesXY:Incorrect Compute parameter selected. Options are 'R','Cpp,'Parallel'")

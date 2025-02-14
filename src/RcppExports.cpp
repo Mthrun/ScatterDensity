@@ -55,16 +55,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // smooth1D_parallel
-arma::mat smooth1D_parallel(arma::mat Y, double lambda, bool na_rm, bool Silent);
-RcppExport SEXP _ScatterDensity_smooth1D_parallel(SEXP YSEXP, SEXP lambdaSEXP, SEXP na_rmSEXP, SEXP SilentSEXP) {
+arma::mat smooth1D_parallel(arma::mat G, double lambda, int nbins, bool smooth_rows, bool na_rm, bool Silent);
+RcppExport SEXP _ScatterDensity_smooth1D_parallel(SEXP GSEXP, SEXP lambdaSEXP, SEXP nbinsSEXP, SEXP smooth_rowsSEXP, SEXP na_rmSEXP, SEXP SilentSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type G(GSEXP);
     Rcpp::traits::input_parameter< double >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< int >::type nbins(nbinsSEXP);
+    Rcpp::traits::input_parameter< bool >::type smooth_rows(smooth_rowsSEXP);
     Rcpp::traits::input_parameter< bool >::type na_rm(na_rmSEXP);
     Rcpp::traits::input_parameter< bool >::type Silent(SilentSEXP);
-    rcpp_result_gen = Rcpp::wrap(smooth1D_parallel(Y, lambda, na_rm, Silent));
+    rcpp_result_gen = Rcpp::wrap(smooth1D_parallel(G, lambda, nbins, smooth_rows, na_rm, Silent));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -73,7 +75,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ScatterDensity_c_inPSphere2D", (DL_FUNC) &_ScatterDensity_c_inPSphere2D, 7},
     {"_ScatterDensity_quantile4LargeVectors", (DL_FUNC) &_ScatterDensity_quantile4LargeVectors, 2},
     {"_ScatterDensity_smooth1D_C", (DL_FUNC) &_ScatterDensity_smooth1D_C, 4},
-    {"_ScatterDensity_smooth1D_parallel", (DL_FUNC) &_ScatterDensity_smooth1D_parallel, 4},
+    {"_ScatterDensity_smooth1D_parallel", (DL_FUNC) &_ScatterDensity_smooth1D_parallel, 6},
     {NULL, NULL, 0}
 };
 
