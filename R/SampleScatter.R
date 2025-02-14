@@ -33,8 +33,7 @@ ind=which(V$GridDensity>max(ddnew_A,na.rm = T),arr.ind = T)
   ind=which(V$GridDensity>DensityThreshold,arr.ind = T)
 }
 V$Xkernels[ind[1,2]] & V$Ykernels[ind[1,1]]
-x=Data_pb_sample[,"CD45"]
-y=Data_pb_sample[,"SS"]
+
 x_min = V$Xkernels[ind[,2]-1]
 x_max = V$Xkernels[ind[,2]]
 y_min = V$Ykernels[ind[,1]-1]
@@ -44,7 +43,7 @@ ss=c()
 new_ind=c()
 ind_all=c()
 for(i in 1:length(x_min)){
-  ind_cur= x >= x_min[i] & x <= x_max[i] &  y >= y_min[i] & y <= y_max[i]
+  ind_cur= X >= x_min[i] & X <= x_max[i] &  Y >= y_min[i] & Y <= y_max[i]
   ss[i]=sum(ind_cur)
   if(ss[i]>ThresholdPoints){
     ind_all_cur=which(ind_cur)
