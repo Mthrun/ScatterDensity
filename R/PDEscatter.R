@@ -1,4 +1,4 @@
-PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius, 
+PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius, Compute="Cpp",
     sampleParetoRadius, NrOfContourLines = 20, Plotter = "native", 
     DrawTopView = TRUE, xlab = "X", ylab = "Y", main = "PDEscatter", 
     xlim, ylim, Legendlab_ggplot = "value") 
@@ -140,7 +140,8 @@ PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRad
             }
         }
     }
-    inPSpheres = inPSphere2D(percentdata, ParetoRadius)
+    Compute=tolower(Compute)
+    inPSpheres = inPSphere2D(percentdata, ParetoRadius,Compute=Compute)
     Matrix3D = cbind(x, y, inPSpheres)
     if (PlotIt == -1) 
         return(list(X = x, Y = y, Densities = inPSpheres, Matrix3D = Matrix3D, 

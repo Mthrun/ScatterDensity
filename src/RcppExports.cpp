@@ -28,14 +28,31 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// c_inPSphere2D_parallel
+IntegerVector c_inPSphere2D_parallel(NumericMatrix data, IntegerVector xBinNr, IntegerVector yBinNr, unsigned int nrXBins, unsigned int nrYBins, unsigned int nrData, double paretoRadius);
+RcppExport SEXP _ScatterDensity_c_inPSphere2D_parallel(SEXP dataSEXP, SEXP xBinNrSEXP, SEXP yBinNrSEXP, SEXP nrXBinsSEXP, SEXP nrYBinsSEXP, SEXP nrDataSEXP, SEXP paretoRadiusSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type xBinNr(xBinNrSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type yBinNr(yBinNrSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type nrXBins(nrXBinsSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type nrYBins(nrYBinsSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type nrData(nrDataSEXP);
+    Rcpp::traits::input_parameter< double >::type paretoRadius(paretoRadiusSEXP);
+    rcpp_result_gen = Rcpp::wrap(c_inPSphere2D_parallel(data, xBinNr, yBinNr, nrXBins, nrYBins, nrData, paretoRadius));
+    return rcpp_result_gen;
+END_RCPP
+}
 // quantile4LargeVectors
-Rcpp::NumericVector quantile4LargeVectors(Rcpp::NumericVector x, Rcpp::NumericVector probs);
+NumericVector quantile4LargeVectors(NumericVector x, NumericVector probs);
 RcppExport SEXP _ScatterDensity_quantile4LargeVectors(SEXP xSEXP, SEXP probsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type probs(probsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type probs(probsSEXP);
     rcpp_result_gen = Rcpp::wrap(quantile4LargeVectors(x, probs));
     return rcpp_result_gen;
 END_RCPP
@@ -73,6 +90,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ScatterDensity_c_inPSphere2D", (DL_FUNC) &_ScatterDensity_c_inPSphere2D, 7},
+    {"_ScatterDensity_c_inPSphere2D_parallel", (DL_FUNC) &_ScatterDensity_c_inPSphere2D_parallel, 7},
     {"_ScatterDensity_quantile4LargeVectors", (DL_FUNC) &_ScatterDensity_quantile4LargeVectors, 2},
     {"_ScatterDensity_smooth1D_C", (DL_FUNC) &_ScatterDensity_smooth1D_C, 4},
     {"_ScatterDensity_smooth1D_parallel", (DL_FUNC) &_ScatterDensity_smooth1D_parallel, 6},

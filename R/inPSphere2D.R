@@ -1,4 +1,4 @@
-inPSphere2D = function (data, paretoRadius = NULL) 
+inPSphere2D = function (data, paretoRadius = NULL,Compute="Cpp") 
 {
     if (is.null(paretoRadius)){
       if(requireNamespace("DataVisualizations")){
@@ -38,7 +38,17 @@ inPSphere2D = function (data, paretoRadius = NULL)
     yBinNr <- findInterval(y, e$breaks)
     nrXBins <- length(xedge)
     nrYBins <- length(yedge)
-    nInPsphere = c_inPSphere2D(data, xBinNr, yBinNr, nrXBins, 
-        nrYBins, nData, paretoRadius)
+    if(Compute=="cpp"){
+      nInPsphere = c_inPSphere2D(data, xBinNr, yBinNr, nrXBins, 
+                                 nrYBins, nData, paretoRadius)
+    }else if(Compute=="parallel"){
+      nInPsphere = c_inPSphere2D_parallel(data, xBinNr, yBinNr, nrXBins, 
+                                 nrYBins, nData, paretoRadius)
+    }else{
+      nInPsphere = c_inPSphere2D(data, xBinNr, yBinNr, nrXBins, 
+                                 nrYBins, nData, paretoRadius)
+    }
+
+    
     return(nInPsphere)
 }

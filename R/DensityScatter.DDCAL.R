@@ -36,7 +36,8 @@ DensityScatter.DDCAL = function (X,
   Bool = FALSE
   if(length(X) > PDEsample && isFALSE(SDHorPDE)) {
     Bool = TRUE
-    ind  = sample(1:length(X), PDEsample)
+    # ind  = sample(1:length(X), PDEsample)
+    ind  = 1:length(X)
   }else{
     ind  = 1:length(X)
   }
@@ -44,9 +45,9 @@ DensityScatter.DDCAL = function (X,
     message("DensityScatter.DDCAL: Estimating Density...")
   }
   if(isTRUE(SDHorPDE)){
-    Dens = SmoothedDensitiesXY(X = X[ind], Y = Y[ind], PlotIt = FALSE)$Densities
+    Dens = SmoothedDensitiesXY(X = X, Y = Y, PlotIt = FALSE,Compute="Parallel")$Densities
   }else{
-    Dens = PDEscatter(x = X[ind], y = Y[ind], PlotIt = -1)$Densities
+    Dens = PDEscatter(x = X, y = Y, PlotIt = -1,Compute="Parallel")$Densities
   }
   
   if(isFALSE(Silent)){
@@ -80,7 +81,8 @@ DensityScatter.DDCAL = function (X,
     colpal <- cut(cls, length(cls), labels = FALSE)
     cols <- colpalette(length(cls))[colpal]
   }
-  
+
+  ## Plotting ----
   if (Plotter == "native") {
     if (isTRUE(Marginals)) {
       def.par <- par(no.readonly = TRUE)
@@ -97,17 +99,21 @@ DensityScatter.DDCAL = function (X,
     if (isFALSE(Silent)) 
       message("DensityScatter.DDCAL: Plotting...")
     if (isTRUE(Bool)) {
-      if (length(X) > 10 * PDEsample) {
-        ind2 = sample(1:length(X), 3 * PDEsample)
-      }
-      else {
-        ind2 = 1:length(X)
-      }
-      plot(X[ind2], Y[ind2], xlab = xlab, ylab = ylab, 
-           xlim = xlim, ylim = ylim, col = "navyblue", pch = 3, 
+      # if (length(X) > 10 * PDEsample) {
+      #   ind2 = sample(1:length(X), 3 * PDEsample)
+      # }
+      # else {
+      #   ind2 = 1:length(X)
+      # }
+      # plot(X[ind2], Y[ind2], xlab = xlab, ylab = ylab, 
+      #      xlim = xlim, ylim = ylim, col = "navyblue", pch = 3, 
+      #      cex = Size,main=main, ...)
+      # points(x = X[ind], y = Y[ind], col = cols, pch = pch, 
+      #        cex = Size, ...)
+      subsample_ind=SampleScatter(X,Y)
+      plot(X[subsample_ind], Y[subsample_ind], xlab = xlab, ylab = ylab,
+           xlim = xlim, ylim = ylim, col = cols[subsample_ind], pch = pch,
            cex = Size,main=main, ...)
-      points(x = X[ind], y = Y[ind], col = cols, pch = pch, 
-             cex = Size, ...)
     }
     else {
       plot(x = X, y = Y, xlab = xlab, ylab = ylab, xlim = xlim, 
@@ -140,27 +146,33 @@ DensityScatter.DDCAL = function (X,
     if (isFALSE(Silent)) 
       message("DensityScatter.DDCAL: Preparing for ggplot2..")
     if (isTRUE(Bool)) {
-      if (length(X) > 2 * PDEsample) {
-        mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 
-                                        2 * PDEsample)
-        Centroids = mod$centroids
-        DFnull = data.frame(x2 = Centroids[, 1], y2 = Centroids[,2], Colors = "navyblue")
-      }else {
-        ind2 = 1:length(X)
-        DFnull = data.frame(x2 = X, y2 = Y, Colors = "navyblue")[ind2,]
-      }
-      
-      if (isFALSE(Silent)) 
-        message("DensityScatter.DDCAL: using ggplot2..")
-      DF = data.frame(x = X[ind], y = Y[ind], Colors = cols, 
-                      Cls = cls)
+      subsample_ind=SampleScatter(X,Y,ThresholdPoints = 10)
+      DF = data.frame(x = X[subsample_ind], y = Y[subsample_ind], Colors = cols[subsample_ind], Cls = cls[subsample_ind])
       ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
-                                               col = "Colors")) + ggplot2::geom_point(data = DFnull, 
-                                                                                      mapping = ggplot2::aes_string(x = "x2", y = "y2", col = "Colors"), 
-                                                                                      size = Size, shape = 3, alpha = 0.4) + 
-        ggplot2::geom_point(size = Size, shape = pch, 
-                            alpha = 0.4) + ggplot2::theme(legend.position = "none") + 
-        ggplot2::scale_color_identity()
+                                                      col = "Colors"), alpha = 0.05) +
+        ggplot2::geom_point(size = Size, shape = pch) + 
+        ggplot2::theme(legend.position = "none") + ggplot2::scale_color_identity()
+      # if (length(X) > 2 * PDEsample) {
+      #   mod = ClusterR::MiniBatchKmeans(cbind(X, Y), 
+      #                                   2 * PDEsample)
+      #   Centroids = mod$centroids
+      #   DFnull = data.frame(x2 = Centroids[, 1], y2 = Centroids[,2], Colors = "navyblue")
+      # }else {
+      #   ind2 = 1:length(X)
+      #   DFnull = data.frame(x2 = X, y2 = Y, Colors = "navyblue")[ind2,]
+      # }
+      # 
+      # if (isFALSE(Silent)) 
+      #   message("DensityScatter.DDCAL: using ggplot2..")
+      # DF = data.frame(x = X[ind], y = Y[ind], Colors = cols, 
+      #                 Cls = cls)
+      # ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
+      #                                          col = "Colors")) + ggplot2::geom_point(data = DFnull, 
+      #                                                                                 mapping = ggplot2::aes_string(x = "x2", y = "y2", col = "Colors"), 
+      #                                                                                 size = Size, shape = 3, alpha = 0.4) + 
+      #   ggplot2::geom_point(size = Size, shape = pch, 
+      #                       alpha = 0.4) + ggplot2::theme(legend.position = "none") + 
+      #   ggplot2::scale_color_identity()
     }else {
       DF = data.frame(x = X, y = Y, Colors = cols, Cls = cls)
       ggobj = ggplot2::ggplot(DF, ggplot2::aes_string(x = "x", y = "y", 
@@ -228,13 +240,13 @@ DensityScatter.DDCAL = function (X,
       #  which(KMeansCls == x)[1]
       #}, KMeansCls))
       #Idx = as.numeric(CentroidsIdx)
-      
+      subsample_ind=SampleScatter(X,Y,ThresholdPoints = 10)
       plotOut = plotly::plot_ly()
       #plotOut = plotly::add_markers(p = plotOut,
       #                              x = X[Idx], y = Y[Idx],
       #                              marker = list(color = Colors[cls[Idx]], size = 3), type = "scatter")
       plotOut = plotly::add_markers(p = plotOut,
-                                    x = X[ind], y = Y[ind],
+                                    x = X[subsample_ind], y = Y[subsample_ind],
                                     marker = list(color = Colors[cls], size = 3), type = "scatter")
       if(!missing(Polygon)){
         plotOut = plotly::add_polygons(p = plotOut,

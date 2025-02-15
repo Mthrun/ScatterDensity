@@ -7,11 +7,11 @@ Concept of Pareto density estimation (PDE) proposed for univsariate data by [Ult
 \usage{
 PDEscatter(x,y,SampleSize,
 
-na.rm=FALSE,PlotIt=TRUE,ParetoRadius,sampleParetoRadius,
-                              
-NrOfContourLines=20,Plotter='native', DrawTopView = TRUE,
-                              
-xlab="X", ylab="Y", main="PDEscatter",
+na.rm=FALSE,PlotIt=TRUE,ParetoRadius,sampleParetoRadius, 
+
+Compute="Cpp", NrOfContourLines=20,Plotter='native',
+
+DrawTopView = TRUE, xlab="X", ylab="Y", main="PDEscatter",
                               
 xlim, ylim, Legendlab_ggplot="value")
 }
@@ -29,6 +29,9 @@ The method was succesfully used in [Thrun, 2018; Thrun/Ultsch 2018].
   \item{SampleSize}{Numeric m, positiv scalar, maximum size of the sample used for calculation. High values increase runtime significantly. The default is that no sample is drawn}
   \item{na.rm}{Function may not work with non finite values. If these cases should be automatically removed, set parameter TRUE}
   \item{ParetoRadius}{Numeric, positiv scalar, the Pareto Radius. If omitted (or 0), calculate by paretoRad.}
+  \item{Compute}{
+      Either \code{Cpp} or \code{Parallel}, defines if multicore computation should be performed
+    }
    \item{sampleParetoRadius}{Numeric, positiv scalar, maximum size of the sample used for estimation of "kernel", should be significantly lower than SampleSize because requires distance computations which is memory expensive}
     \item{PlotIt}{\code{TRUE}: plots with function call
     
