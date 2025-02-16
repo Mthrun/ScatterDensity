@@ -11,6 +11,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// accumarray_rcpp
+SEXP accumarray_rcpp(SEXP subs, NumericVector val, Nullable<NumericVector> sz, double fillval);
+RcppExport SEXP _ScatterDensity_accumarray_rcpp(SEXP subsSEXP, SEXP valSEXP, SEXP szSEXP, SEXP fillvalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type subs(subsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type val(valSEXP);
+    Rcpp::traits::input_parameter< Nullable<NumericVector> >::type sz(szSEXP);
+    Rcpp::traits::input_parameter< double >::type fillval(fillvalSEXP);
+    rcpp_result_gen = Rcpp::wrap(accumarray_rcpp(subs, val, sz, fillval));
+    return rcpp_result_gen;
+END_RCPP
+}
 // c_inPSphere2D
 IntegerVector c_inPSphere2D(NumericMatrix data, IntegerVector xBinNr, IntegerVector yBinNr, unsigned int nrXBins, unsigned int nrYBins, unsigned int nrData, double paretoRadius);
 RcppExport SEXP _ScatterDensity_c_inPSphere2D(SEXP dataSEXP, SEXP xBinNrSEXP, SEXP yBinNrSEXP, SEXP nrXBinsSEXP, SEXP nrYBinsSEXP, SEXP nrDataSEXP, SEXP paretoRadiusSEXP) {
@@ -89,6 +103,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_ScatterDensity_accumarray_rcpp", (DL_FUNC) &_ScatterDensity_accumarray_rcpp, 4},
     {"_ScatterDensity_c_inPSphere2D", (DL_FUNC) &_ScatterDensity_c_inPSphere2D, 7},
     {"_ScatterDensity_c_inPSphere2D_parallel", (DL_FUNC) &_ScatterDensity_c_inPSphere2D_parallel, 7},
     {"_ScatterDensity_quantile4LargeVectors", (DL_FUNC) &_ScatterDensity_quantile4LargeVectors, 2},

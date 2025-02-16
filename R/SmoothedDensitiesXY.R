@@ -23,6 +23,10 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
     }
     else {
     }
+  
+  Compute=tolower(Compute)
+  Compute=gsub("\\+","p",Compute)
+  
     X = as.vector(X)
     Y = as.vector(Y)
     OrigN = length(X)
@@ -68,21 +72,23 @@ SmoothedDensitiesXY = function (X, Y, nbins, lambda, Xkernels, Ykernels,Compute=
     bin = matrix(0, n, 2)
     bin[, 2] = pracma::histc(X, edges1)$bin
     bin[, 1] = pracma::histc(Y, edges2)$bin
-    H = pracma::accumarray(bin, rep(1, nrow(bin)), nbins[c(2, 
-        1)])/n
     
-    Compute=tolower(Compute)
-    Compute=gsub("\\+","p",Compute)
     switch (Compute,
       cpp = {
+        H=accumarray_rcpp(bin, rep(1, nrow(bin)), nbins[c(2, 
+                                                          1)])/n
         G = smooth1D_C(H, nbins[2]/lambda)
         hist_F_2D = t(smooth1D_C(t(G), nbins[1]/lambda))
       },
       r = {
+        H = pracma::accumarray(bin, rep(1, nrow(bin)), nbins[c(2, 
+                                                               1)])/n
         G = smooth1D(H, nbins[2]/lambda)
         hist_F_2D = t(smooth1D(t(G), nbins[1]/lambda))
       },
       parallel = {
+        H=accumarray_rcpp(bin, rep(1, nrow(bin)), nbins[c(2, 
+                                                          1)])/n
         G = smooth1D_parallel(H, nbins[2]/lambda, nbins[2],smooth_rows=TRUE)
         hist_F_2D = smooth1D_parallel(G,nbins[1]/lambda, nbins[1],smooth_rows=FALSE)
         #hist_F_2D = t(smooth1D_parallel(t(G), nbins[1]/lambda))
