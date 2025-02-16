@@ -25,7 +25,7 @@ DensityThreshold, nbins = 100,na.rm=TRUE, PlotIt = FALSE)
 how many points per grid are allowed to overlap, default 20
 }
   \item{DensityThreshold}{
-SDH threshold for density computed with \code{SmoothedDensitiesXY}
+default is internally estimated, scalar above zero and below 1, SDH threshold for density computed with \code{SmoothedDensitiesXY}, usually good values are around 0.1
 }
   \item{nbins}{
 number of bins in grid, default 100x100
@@ -38,7 +38,7 @@ Plots the remaining points
 }
 }
 \details{
-"Optimally"" visualized in the sense that not too much point overap visually
+"Optimally"" visualized in the sense that not too much point overap visually. The lower the value for \code{ThresholdPoints}, the smaller is the sample that is taken by the function.
 }
 \value{
 SubsampleInd[1:m] indices of m points, m<n, that will be relevant for a optimal scatter plot

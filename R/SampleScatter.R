@@ -17,36 +17,42 @@ SampleScatter=function(X,Y,ThresholdPoints=20,DensityThreshold,nbins=100,na.rm=T
   
   dd = as.vector(V$GridDensity)
   if (missing(DensityThreshold)) {
-    if (!requireNamespace("ABCanalysis")) {
-      warning("SampleScatter: Please install ABCanalysis in order to use SampleScatter().")
-      return("SampleScatter: Please install ABCanalysis in order to use SampleScatter().")
-    }
-    
-    V2 = ABCanalysis::ABCanalysis(dd, PlotIt = F)
-    nprop = length(V2$Cind) / length(as.vector(dd))
-    ddnew = dd
-    ddnew_A = dd
-    while (nprop > 0.8 | max(ddnew_A) == 1) {
-      V2 = ABCanalysis::ABCanalysis(ddnew, PlotIt = F)
-      nprop = length(V2$Cind) / length(as.vector(dd))
-      ddnew_A = ddnew[V2$Aind]
-      ddnew = ddnew[V2$Cind]
-    }
-    max(ddnew, na.rm = T)
-    max(ddnew_A, na.rm = T)
-    
-    DensityThreshold = max(ddnew_A, na.rm = T)
+    # if (!requireNamespace("ABCanalysis")) {
+    #   warning("SampleScatter: Please install ABCanalysis in order to use SampleScatter().")
+    #   return("SampleScatter: Please install ABCanalysis in order to use SampleScatter().")
+    # }
+    # 
+    # V2 = ABCanalysis::ABCanalysis(dd, PlotIt = F)
+    # nprop = length(V2$Cind) / length(as.vector(dd))
+    # ddnew = dd
+    # ddnew_A = dd
+    # while (nprop > 0.8 | max(ddnew_A) == 1) {
+    #   V2 = ABCanalysis::ABCanalysis(ddnew, PlotIt = F)
+    #   nprop = length(V2$Cind) / length(as.vector(dd))
+    #   ddnew_A = ddnew[V2$Aind]
+    #   ddnew = ddnew[V2$Cind]
+    # }
+    # max(ddnew, na.rm = T)
+    # max(ddnew_A, na.rm = T)
+    # 
+    # DensityThreshold = max(ddnew_A, na.rm = T)
+    dd_s=sample(dd,min(c(10000,length(dd))))
+    Cls=DDCAL(dd_s,2)
+    DensityThreshold=min(dd_s[Cls==1],na.rm = T)
   }
   
   
   ind = which(V$GridDensity > DensityThreshold, arr.ind = T)
   ind[ind == nbins] = nbins - 1
   if (nrow(ind) > 0) {
-    x_min = V$Xkernels[ind[, 2]]
-    x_max = V$Xkernels[ind[, 2] + 1]
-    y_min = V$Ykernels[ind[, 1]]
-    y_max = V$Ykernels[ind[, 1] + 1]
-    
+    kx=median(diff(V$Xkernels,lag=1),na.rm = T)
+    ky=median(diff(V$Ykernels,lag=1),na.rm = T)
+    x_min = V$Xkernels[ind[, 2]]-kx/2
+   # x_max = V$Xkernels[ind[, 2] + 1]
+    x_max = V$Xkernels[ind[, 2]]+kx/2
+    y_min = V$Ykernels[ind[, 1]]-ky/2
+    #y_max = V$Ykernels[ind[, 1] + 1]
+    y_max = V$Ykernels[ind[, 1]]+ky/2
     ss = c()
     new_ind = c()
     ind_all = c()
