@@ -9,9 +9,8 @@ Density estimation (PDE) [Ultsch, 2005] or "SDH" [Eilers/Goeman, 2004] used for 
 }
 \usage{
 DensityScatter.DDCAL(X, Y, nClusters = 12, Plotter = "native", 
-SDHorPDE = TRUE, PDEsample = 5000,
-Marginals = FALSE, na.rm=TRUE,
-pch = 10, Size = 1, 
+SDHorPDE = TRUE, LimitShownPoints = FALSE,
+Marginals = FALSE, na.rm=TRUE, pch, Size, 
 xlab="x", ylab="y", main = "",lwd = 2,
 xlim=NULL,ylim=NULL,Polygon,BW = TRUE,Silent = FALSE, ...)
 }
@@ -24,18 +23,18 @@ Numeric vector [1:n], first feature (for x axis values)
 Numeric vector [1:n], second feature (for y axis values)
 }
   \item{nClusters}{
-Integer defining the number of clusters (colors) used for finding a hard color
-transition.
+(Optional) Integer defining the number of clusters (colors) used for finding a hard color
+transition, default is 12.
 }
   \item{Plotter}{
-(Optional) String, name of the plotting backend to use. Possible values are: "\code{native}" or "\code{ggplot2}"
+(Optional) String, name of the plotting backend to use. Possible values are: "\code{native}", "\code{plotly}", or "\code{ggplot2}"
 }
 
   \item{SDHorPDE}{
 (Optional) Boolean, if TRUE SDH is used to calculate density, if FALSE PDE is used
 }
-  \item{PDEsample}{
-(Optional) Scalar, Sample size for PDE and/or for ggplot2 plotting. Default is 5000
+  \item{LimitShownPoints}{
+(Optional) FALSE: does nothing, TRUE: samples the number of optimal points for visualization using \code{\link{SampleScatter}}
 }
   \item{Marginals}{
 (Optional) Boolean, if TRUE the marginal distributions of X and Y will be plotted together with the 2D density of X and Y. Default is FALSE
@@ -44,20 +43,20 @@ transition.
 (Optional) Boolean, if TRUE non finite values will be removed
 }
   \item{pch}{
-(Optional) Scalar or character. Indicates the shape of data points, see \code{plot()} function or the \code{shape} argument in ggplot2. Default is 10
+(Optional) Scalar or character. Indicates the shape of data points, see \code{\link{plot}} function, \code{symbol} argument in \pkg{plotly} package, or the \code{shape} argument in \pkg{ggplot2} package, default is \code{20} for \code{native} and for \code{ggplot2}, and \code{0} for \code{plotly} 
 }
   \item{Size}{
-(Optional) Scalar, size of data points in plot, default is 1
+(Optional) Scalar, size of data points in plot, default is \code{1} for \code{native}, \code{6} for \code{plotly}, and \code{3} for \code{ggplot2} 
 }
 
   \item{xlab}{
-String, title of the x axis. Default: "X",   see \code{plot()} function
+(Optional) String, title of the x axis. Default: "X",   see \code{plot()} function, or similar functonality in  \pkg{plotly} or  \pkg{ggplot2} 
 }
   \item{ylab}{
-String, title of the y axis. Default: "Y",   see \code{plot()} function
+(Optional) String, title of the y axis. Default: "Y",   see \code{plot()} function, or similar functonality in  \pkg{plotly} or  \pkg{ggplot2}
 }
   \item{main}{
-(Optional)  Character, title of the plot. [1:2] 
+(Optional)  Character, title of the plot.
 }
   \item{lwd}{
 (Optional) Scalar, thickness of the lines used for the marginal distributions (only needed if \code{Marginals=TRUE}), see \code{plot()}. Default = 2
@@ -74,7 +73,7 @@ String, title of the y axis. Default: "Y",   see \code{plot()} function
 (Optional) [1:p,1:2] numeric matrix that defines for x and y coordinates a polygon in magenta
 }
   \item{BW}{
-(Optional) Boolean, if TRUE ggplot2 will use a white background, if FALSE the typical ggplot2 backgournd is used. Not needed if "\code{native}" as Plotter is used. Default is TRUE
+(Optional) Boolean, if TRUE and \code{Plotter="ggplot2"} will use a white background, if FALSE and \code{Plotter="ggplot2"}, the typical ggplot2 background is used. Not needed if "\code{Plotter="native"}. Default is TRUE
 }
   \item{Silent}{
 (Optional) Boolean, if TRUE no messages will be printed, default is FALSE
@@ -87,10 +86,18 @@ Further plot arguments
 The \code{DensityScatter.DDCAL} function generates the density of the xy data as a z coordinate. Afterwards xyz will be plotted as a contour plot. It assumens that the cases of x and y are mapped to each other meaning that a \code{cbind(x,y)} operation is allowed.
 The colors for the densities in the contour plot are calculated with DDCAL, which produces clusters to evenly distribute the densities in low variance clusters.
 
-In the case of "\code{native}" as Plotter, the handle returns \code{NULL} because the basic R functon \code{plot}() is used
+In the case of "\code{native}" as Plotter, the handle returns \code{NULL} because the basic R functon \code{plot}() is used.
+
+For the returned density values see \code{\link{SmoothedDensitiesXY}} or  \code{\link{PDEscatter}} depending on input parameter \code{SDHorPDE} for details.
 }
 \value{
-If "\code{ggplot2}" as Plotter is used, the ggobj is returned
+returns a invisible list with 
+  \item{DF}{
+[1:m,1:5] of \code{Density} values, \code{x} values, \code{y} values, \code{colors}, and classification vector \code{Cls}. m=n if \code{LimitShownPoints=FALSE}, otherwise \code{LimitShownPoints=TRUE} m<n meaning that subsample is taken  
+}
+  \item{PlotHandle}{
+  the plotting handle, either an object of \pkg{plotly}, \pkg{ggplot2} or NULL depending on input parameter \code{Plotter}
+}
 
 }
 \references{
@@ -105,9 +112,6 @@ If "\code{ggplot2}" as Plotter is used, the ggobj is returned
 }
 \author{
 Luca Brinkmann, Michael Thrun
-}
-\note{
-Support for plotly will be implemented later
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

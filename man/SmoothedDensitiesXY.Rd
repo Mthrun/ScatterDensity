@@ -19,35 +19,32 @@ Numeric vector [1:n], first feature (for x axis values)
 }
   \item{Y}{
 Numeric vector [1:n], second feature (for y axis values),
-nbins= nxy      => the nr of bins in x and y is nxy
-nbins = c(nx,ny) => the nr of bins in x is nx and for y is ny
 }
   \item{nbins}{
- number of bins, nbins=nx=ny=250 (default)
+Optional, number of bins, default is 250, if scalar nbins=nx=ny otherwise c(nx,ny) vector of length 2
 }
   \item{lambda}{
-smoothing factor used by the density estimator or c()
-default: lambda = 20 which roughly  means that the smoothing is over 20 bins around a given point.
+Optional, smoothing factor used by the density estimator, default is lambda = 20
 }
   \item{Xkernels}{
-bin kernels in x direction are given
+Optional, bin kernels in x direction are given, if not set nx bins in range of data are generated with \code{\link{seq}}
 }
   \item{Ykernels}{
-bin kernels y direction are given
+Optional, bin kernels y direction are given, if not set ny bins in range of data are generated with \code{\link{seq}}
 }
   \item{Compute}{
-Either \code{R}, \code{Cpp} or \code{Parallel}, defines where heavy-load computation is performed
+Either \code{R}, \code{Cpp} or \code{Parallel}, defines how the heavy-load computation is performed
 }
   \item{PlotIt}{
 FALSE: no plotting, TRUE: simple plot
 }
 }
 \details{
-lambda has to chosen by the user and is a sensitive parameter.
+\code{lambda} has to chosen by the user and is a sensitive parameter and a \code{lambda = 20} roughly means that the smoothing is over 20 bins around a given point.
 }
 \value{
  List of:
-   \item{Densities}{numeric vector [1:n] is the smothed density in 3D  }
+  \item{Densities}{numeric vector [1:n] is the smothed density in 3D  }
   \item{Xkernels}{numeric vector [1:nx], nx defined by \code{nbins}, such that mesh(Xkernels,Ykernels,F) form the ( not NaN) smothed densisties}
   \item{Ykernels}{numeric vector [1:ny], nx defined by \code{nbins}, such that mesh(Xkernels,Ykernels,F) form the ( not NaN) smothed densisties}
   \item{GridDensity}{matrix [1:nx,1:ny] beeing the smoothed 2D histogram }
@@ -82,7 +79,6 @@ MTY=rnorm(1000)
 V=SmoothedDensitiesXY(ITS,MTY)
 }
 }
-
 
 }
 \keyword{scatter}
