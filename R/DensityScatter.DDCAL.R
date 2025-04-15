@@ -185,7 +185,7 @@ DensityScatter.DDCAL = function (X,
     if (isTRUE(Marginals)) {
       ggobj <- ggExtra::ggMarginal(ggobj, type = "density",margins = "both")
     }else{
-      ggobj=ggobj+ggplot2::theme(panel.border = element_blank())
+      ggobj=ggobj+ggplot2::theme(panel.border = ggplot2::element_blank())
     }
       print(ggobj)
       plotOut=ggobj

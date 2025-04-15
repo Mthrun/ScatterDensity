@@ -7,9 +7,9 @@ Concept of Pareto density estimation (PDE) proposed for univsariate data by [Ult
 \usage{
 PDEscatter(x,y,SampleSize,
 
-na.rm=FALSE,PlotIt=TRUE,ParetoRadius,sampleParetoRadius, 
+na.rm=FALSE,PlotIt=TRUE,ParetoRadius,Compute="Cpp", 
 
-Compute="Cpp", NrOfContourLines=20,Plotter='native',
+sampleParetoRadius, NrOfContourLines=20,Plotter='native',
 
 DrawTopView = TRUE, xlab="X", ylab="Y", main="PDEscatter",
                               

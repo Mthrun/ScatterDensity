@@ -5,12 +5,15 @@
   This function determines the 2D data points inside a ParetoSphere with ParetoRadius.
 }
 \usage{
-inPSphere2D(data, paretoRadius=NULL)
+inPSphere2D(data, paretoRadius=NULL,Compute="Cpp")
 }
 
 \arguments{
   \item{data}{numeric matrix of data.}
   \item{paretoRadius}{numeric value. radius of P-spheres. If not given, calculate by the function 'paretoRad' }
+    \item{Compute}{
+      Either \code{Cpp} or \code{Parallel}, defines if multicore computation should be performed
+    }
 }
 
 \value{
