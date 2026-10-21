@@ -9,7 +9,7 @@ Density estimation (PDE) [Ultsch, 2005] or "SDH" [Eilers/Goeman, 2004] used for 
 }
 \usage{
 DensityScatter.DDCAL(X, Y, nClusters = 12, Plotter = "native", 
-SDHorPDE = TRUE, LimitShownPoints = FALSE,
+DensityMethod = "SDH", LimitShownPoints = FALSE,
 Marginals = FALSE, na.rm=TRUE, pch, Size, 
 xlab="x", ylab="y", main = "",lwd = 2,
 xlim=NULL,ylim=NULL,Polygon,BW = TRUE,Silent = FALSE, ...)
@@ -30,8 +30,8 @@ transition, default is 12.
 (Optional) String, name of the plotting backend to use. Possible values are: "\code{native}", "\code{plotly}", or "\code{ggplot2}"
 }
 
-  \item{SDHorPDE}{
-(Optional) Boolean, if TRUE SDH is used to calculate density, if FALSE PDE is used
+  \item{DensityMethod}{
+(Optional) character, "SDH", "PDEsphere" or "PDEjoint"
 }
   \item{LimitShownPoints}{
 (Optional) FALSE: does nothing, TRUE: samples the number of optimal points for visualization using \code{\link{SampleScatter}}

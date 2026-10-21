@@ -2,7 +2,7 @@ DensityScatter.DDCAL = function (X,
                                  Y,
                                  nClusters = 12,
                                  Plotter = "native",
-                                 SDHorPDE = TRUE,
+                                 DensityMethod = "SDH",
                                  LimitShownPoints=FALSE,
                                  Marginals = FALSE,
                                  na.rm = TRUE,
@@ -37,11 +37,30 @@ DensityScatter.DDCAL = function (X,
   if(isFALSE(Silent)){
     message("DensityScatter.DDCAL: Estimating Density...")
   }
-  if(isTRUE(SDHorPDE)){
-    Dens = SmoothedDensitiesXY(X = X, Y = Y, PlotIt = FALSE,Compute="Parallel")$Densities
-  }else{
-    Dens = PDEscatter(x = X, y = Y, PlotIt = -1,Compute="Parallel")$Densities
-  }
+  Dens <- switch(
+    DensityMethod,
+    
+    SDH = ScatterDensity::SmoothedDensitiesXY(
+      X,
+      Y,
+      PlotIt = FALSE,
+      Compute = "Parallel"
+    )$Densities,
+    
+    PDEsphere = ScatterDensity::PDEscatter(
+      x = X,
+      y = Y,
+      PlotIt = -1,
+      Compute = "Parallel"
+    )$Densities,
+    
+    PDEjoint = ParetoDensityEstimation2D(
+      X,
+      Y
+    )$Densities,
+    
+    stop("Unknown DensityMethod.")
+  )
 
   if(isFALSE(Silent)){
     message("DensityScatter.DDCAL: Estimating colors...")

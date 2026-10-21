@@ -4,21 +4,25 @@ PointsInPolygon=function(Points,Polygon,PlotIt=FALSE,...){
 #
 # INPUT
 # Points          [1:n,1:2] xy cartesian coordinates of a projection
-# Polygon   numerical matrix of 2 columns defining a closed polygon
+# Polygon         Polygon a numerical matrix/data.frame with X and Y,
+#                 optionally VertexNo, or utput/list containing Vertices or X and Y.
+#                 VertexNo, ClusterNo, Ratio, and GeometryType are optional; if VertexNo is supplied,
+#                 it is used to restore the path order. An open polygon is closed internally.
 # PlotIt          TRUE: Plots marked points
 # ...             Further Plotting Arguments,xlab etc used in \code{\link[DataVisualizations]{Classplot}}
-  
+#
 # OUTPUT
-# Cls                Numerical classification vector Cls with 1=outside polygon and 2= inside polygon
+# Cls             Numerical classification vector Cls with 1=outside polygon and 2=inside polygon
 #
 # DETAILS
-#  We assume that polygon is closed, i.e., that the last point connects to the fist point
-#  Michael Thrun
-# 
+# X and Y are mandatory. Optional GeometryType metadata must equal "POLYGON" because POINT and
+# LINESTRING geometries do not define an interior. Polygon input is normalized by assertPolygon(),
+# and the first vertex is appended only if the path is not already closed.
+# Michael Thrun
+#
 #     XY=cbind(runif(100,min = -1,max = 1),rnorm(100))
-#     #closed polygon
-#     polymat <- cbind(x = c(0,1,1,0), y = c(0,0,1,1))
-#     Cls=PointsInPolygon(XY,polymat,PlotIt = TRUE)
+#     polymat=cbind(X=c(0,1,1,0),Y=c(0,0,1,1))
+#     Cls=PointsInPolygon(XY,polymat,PlotIt=TRUE)
 
   
   #if (!requireNamespace("secr", quietly = TRUE)) {
@@ -121,7 +125,9 @@ PointsInPolygon=function(Points,Polygon,PlotIt=FALSE,...){
       Y = Points[, 2]
     }
   }
-  Polygon=rbind(Polygon,head(Polygon,1))
+  # Normalize all supported polygon representations, use optional VertexNo, validate optional metadata and close exactly for secr.
+  Polygon=assertPolygon(Polygon,Eps=0)
+  
   if(requireNamespace("secr")){
     Cls=secr::pointsInPolygon(xy = cbind(X,Y), poly = Polygon)+1
   }else{

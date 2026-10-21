@@ -16,7 +16,10 @@ PointsInPolygon(Points, Polygon, PlotIt = FALSE, ...)
     [1:n,1:2] xy cartesian coordinates of a projection
 }
   \item{Polygon}{
-    Numerical matrix of 2 columns defining a closed polygon
+     Polygon a numerical matrix/data.frame with X and Y,
+   optionally VertexNo, or list containing Vertices or X and Y.
+ VertexNo, ClusterNo, Ratio, and GeometryType are optional; if VertexNo is supplied,
+ it is used to restore the path order. An open polygon is closed internally.
 }
   \item{PlotIt}{
     TRUE: Plots marked points

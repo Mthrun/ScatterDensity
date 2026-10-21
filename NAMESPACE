@@ -1,6 +1,8 @@
 useDynLib(ScatterDensity, .registration = TRUE)
-export("DensityScatter.DDCAL","InteractiveGate","InteractiveSequentialGates","SmoothedDensitiesXY", 
-       "PDEscatter","DDCAL","PointsInPolygon","PolygonGate","SampleScatter")
+export("Cluster2Polygon","DensityScatter.DDCAL","InteractiveGate","InteractiveSequentialGates","SmoothedDensitiesXY", 
+       "PDEscatter","DDCAL","ParetoDensityEstimationFromFit","Mask2Polygon",
+       "Mutualinfo_pde_2d_jackknife","Mutualinfo_pde_2d","ParetoDensityEstimation2D","MI_PDE","MI_PDE_jackknife",
+       "PointsInPolygon","PolygonGate","SampleScatter","UniquePoints","fast_table_num")
 
 import(Rcpp)
 importFrom(RcppParallel,RcppParallelLibs,defaultNumThreads,setThreadOptions)
@@ -9,4 +11,4 @@ importFrom("graphics", "axis", "hist", "lines", "par", "points", "title")
 importFrom("methods", "as")
 importFrom("stats", "dist", "quantile", "sd")
 importFrom("utils", "head", "tail")
-
+importFrom("stats", "median")

@@ -13,7 +13,7 @@ sampleParetoRadius, NrOfContourLines=20,Plotter='native',
 
 DrawTopView = TRUE, xlab="X", ylab="Y", main="PDEscatter",
                               
-xlim, ylim, Legendlab_ggplot="value")
+xlim, ylim, Legendlab_ggplot="value", NormalizeAsDensity=FALSE)
 }
 \details{
 The \code{PDEscatter} function generates the density of the xy data as a z coordinate. Afterwards xyz will be plotted either as a contour plot or a 3d plot. It assumens that the cases of x and y are mapped to each other meaning that a \code{cbind(x,y)} operation is allowed.
@@ -55,6 +55,7 @@ The method was succesfully used in [Thrun, 2018; Thrun/Ultsch 2018].
     see \code{plot()} function
   }
     \item{Legendlab_ggplot}{String, in case of \code{Plotter="ggplot"} label for the legend. Default: "value"}
+	    \item{NormalizeAsDensity}{Boolean, TRUE: normalizes densities to integral equal to one}
 }
 \note{
 MT contributed with several adjustments

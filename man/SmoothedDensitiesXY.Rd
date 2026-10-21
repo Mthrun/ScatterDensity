@@ -8,9 +8,9 @@ Smoothed Densities X with Y
 Density is the smothed histogram density at [X,Y] of [Eilers/Goeman, 2004]
 }
 \usage{
-SmoothedDensitiesXY(X, Y, nbins, lambda, Xkernels, Ykernels,
+SmoothedDensitiesXY(X, Y, nbins, lambda, Xkernels, Ykernels, 
 
-Compute="Cpp", PlotIt = FALSE)
+isXDiscrete=FALSE, isYDiscrete=FALSE, Compute="Cpp", PlotIt = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,8 @@ Optional, bin kernels in x direction are given, if not set nx bins in range of d
   \item{Ykernels}{
 Optional, bin kernels y direction are given, if not set ny bins in range of data are generated with \code{\link{seq}}
 }
+  \item{isXDiscrete}{whether or not the first numeric vector resembles a continuous or discrete measurement}
+  \item{isYDiscrete}{whether or not the second numeric vector resembles a continuous or discrete measurement}
   \item{Compute}{
 Either \code{R}, \code{Cpp} or \code{Parallel}, defines how the heavy-load computation is performed
 }

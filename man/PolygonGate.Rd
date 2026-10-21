@@ -16,8 +16,11 @@ PolygonGate(Data, Polygon, GateVars,  PlotIt = FALSE, PlotSampleSize = 1000)
 numerical matrix n x d
 }
   \item{Polygon}{
-numerical marix of two columns defining the coordiantes of the polygon. polygon assumed to be closed, i.e.,last coordinate connects to first coordinate.
-}
+  Polygon a numerical matrix/data.frame with X and Y,
+                       optionally VertexNo, or list containing Vertices or X and Y.
+                      VertexNo, ClusterNo, Ratio, and GeometryType are optional; if VertexNo is supplied,
+                       it is used to restore the path order. An open polygon is closed internally.
+                       }
   \item{GateVars}{
 vector, either column index in Data of X and Y coordinates of gate or its variable names as string
 }

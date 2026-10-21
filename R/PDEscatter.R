@@ -1,7 +1,7 @@
 PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRadius, Compute="Cpp",
     sampleParetoRadius, NrOfContourLines = 20, Plotter = "native", 
     DrawTopView = TRUE, xlab = "X", ylab = "Y", main = "PDEscatter", 
-    xlim, ylim, Legendlab_ggplot = "value") 
+    xlim, ylim, Legendlab_ggplot = "value", NormalizeAsDensity=FALSE) 
 {
     x = checkFeature(x, varname = "x", Funname = "PDEscatter")
     y = checkFeature(y, varname = "y", Funname = "PDEscatter")
@@ -142,6 +142,32 @@ PDEscatter = function (x, y, SampleSize, na.rm = FALSE, PlotIt = TRUE, ParetoRad
     }
     Compute=tolower(Compute)
     inPSpheres = inPSphere2D(percentdata, ParetoRadius,Compute=Compute)
+    
+    if (NormalizeAsDensity&requireNamespace("geometry",quietly=TRUE)) {
+      
+      tri <- geometry::delaunayn(cbind(x, y))
+      total_integral <- 0
+      
+      for (i in 1:nrow(tri)) {
+        idx <- tri[i, ]
+        x_tri <- x[idx]
+        y_tri <- y[idx]
+        z_tri <- inPSpheres[idx]
+        
+        # Compute area of triangle in XY-plane using shoelace formula
+        area <- abs((x_tri[1]*(y_tri[2] - y_tri[3]) +
+                       x_tri[2]*(y_tri[3] - y_tri[1]) +
+                       x_tri[3]*(y_tri[1] - y_tri[2])) / 2)
+        
+        # Approximate integral over triangle using average height
+        avg_z <- mean(z_tri)
+        total_integral <- total_integral + area * avg_z
+      }
+      
+      # Step 3: Normalize Z so total integral is 1
+      inPSpheres <- inPSpheres / total_integral
+    }
+    
     Matrix3D = cbind(x, y, inPSpheres)
     if (PlotIt == -1) 
         return(list(X = x, Y = y, Densities = inPSpheres, Matrix3D = Matrix3D, 
